@@ -1,0 +1,83 @@
+
+        /* Custom pastel yellow palette */
+        :root {
+            --color-primary-light: #FFFBEB; /* Very light yellow */
+            --color-primary-medium: #FDE68A; /* Medium yellow */
+            --color-primary-dark: #FBBF24;  /* Darker yellow */
+            --color-accent: #F59E0B; /* Orange-yellow for accents */
+            --color-text-dark: #4B5563; /* Gray for text */
+            --color-text-light: #FFFFFF; /* White for light text */
+            --color-bg-light: #FEFCE8; /* Lighter background */
+            --color-border: #FCD34D; /* Border color */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg-light);
+            color: var(--color-text-dark);
+        }
+
+        .bg-primary-light { background-color: var(--color-primary-light); }
+        .bg-primary-medium { background-color: var(--color-primary-medium); }
+        .bg-primary-dark { background-color: var(--color-primary-dark); }
+        .bg-accent { background-color: var(--color-accent); }
+        .text-primary-dark { color: var(--color-primary-dark); }
+        .text-accent { color: var(--color-accent); }
+        .border-primary-dark { border-color: var(--color-primary-dark); }
+        .border-accent { border-color: var(--color-accent); }
+
+        /* Drag and Drop styles */
+        .draggable {
+            cursor: grab;
+        }
+
+        .dragging {
+            opacity: 0.5;
+            border: 2px dashed var(--color-accent);
+        }
+
+        .drop-target {
+            border: 2px dashed transparent;
+            min-height: 50px; /* Ensure drop target has some height */
+        }
+
+        .drop-target.drag-over {
+            border: 2px dashed var(--color-accent);
+            background-color: rgba(253, 230, 138, 0.3); /* Lighter pastel yellow */
+        }
+
+        /* Custom scrollbar for professional queues */
+        .professional-queue {
+            max-height: 250px; /* Limit height for scroll */
+            overflow-y: auto;
+            padding-right: 8px; /* Space for scrollbar */
+        }
+
+        /* Webkit browsers (Chrome, Safari) */
+        .professional-queue::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .professional-queue::-webkit-scrollbar-track {
+            background: var(--color-primary-light);
+            border-radius: 10px;
+        }
+
+        .professional-queue::-webkit-scrollbar-thumb {
+            background: var(--color-primary-medium);
+            border-radius: 10px;
+        }
+
+        .professional-queue::-webkit-scrollbar-thumb:hover {
+            background: var(--color-primary-dark);
+        }
+
+        /* Mobile menu specific styles */
+        .mobile-menu {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-out;
+        }
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+  
