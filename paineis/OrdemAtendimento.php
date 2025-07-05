@@ -1,111 +1,134 @@
+<?php
+session_start();
+
+// Usuário e senha fixos
+$usuario_correto = 'atendente';
+$senha_correta = 'senha123';
+
+// Verifica login
+if (isset($_POST['login'])) {
+    if ($_POST['username'] === $usuario_correto && $_POST['password'] === $senha_correta) {
+        $_SESSION['logado'] = true;
+    } else {
+        $erro = "Usuário ou senha inválidos.";
+    }
+}
+
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header('Location: ?');
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>cabelo.com - Gerenciamento de Clientes</title>
-    <!-- biblioteca Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="min-h-screen flex flex-col">
-    <!-- Header -->
-    <header class="bg-primary-dark p-4 shadow-md text-white flex items-center justify-between relative z-10">
-        <button id="menu-toggle" class="lg:hidden text-white text-2xl p-2 rounded-md hover:bg-primary-medium transition duration-300">
+<body class="corpo-pagina">
+    <div class="area-principal">
+    <?php if (!isset($_SESSION['logado'])): ?>
+        <h2 class="titulo-login">Login do Atendente</h2>
+        <?php if (!empty($erro)) echo "<p class='mensagem-erro'>$erro</p>"; ?>
+        <form method="post" class="formulario-login">
+            <label class="rotulo-campo">Usuário:</label>
+            <input type="text" name="username" class="campo-texto" required>
+            <label class="rotulo-campo">Senha:</label>
+            <input type="password" name="password" class="campo-texto" required>
+            <button type="submit" name="login" class="botao-principal">Entrar</button>
+        </form>
+    <?php else: ?>
+    <header class="cabecalho-aplicacao">
+        <button id="menu-alternar" class="botao-menu-mobile">
             <i class="fas fa-bars"></i>
         </button>
-        <h1 class="text-3xl font-bold flex-grow text-center lg:text-left">cabelo.com</h1>
-        <p class="hidden lg:block text-lg">Gerenciamento Inteligente para seu Salão de Beleza</p>
+        <h1 class="titulo-aplicacao">cabelo.com</h1>
+
     </header>
 
-    <!-- Menu lateral mobile -->
-    <nav id="mobile-sidebar" class="mobile-menu fixed top-0 left-0 h-full w-64 bg-primary-dark shadow-lg z-20 p-4 pt-16 lg:hidden">
-        <button id="close-menu" class="absolute top-4 right-4 text-white text-2xl hover:text-gray-300 transition duration-300">
+    <nav id="menu-lateral-mobile" class="menu-lateral-mobile">
+        <button id="fechar-menu" class="botao-fechar-menu">
             <i class="fas fa-times"></i>
         </button>
-        <ul class="space-y-4 text-white text-lg font-semibold">
-            <li><a href="#" class="block p-2 rounded-md hover:bg-primary-medium transition duration-300"><i class="fas fa-home mr-2"></i> Início</a></li>
-            <li><a href="#" class="block p-2 rounded-md hover:bg-primary-medium transition duration-300"><i class="fas fa-users mr-2"></i> Clientes</a></li>
-            <li><a href="#" class="block p-2 rounded-md hover:bg-primary-medium transition duration-300"><i class="fas fa-user-tie mr-2"></i> Profissionais</a></li>
-            <li><a href="#" class="block p-2 rounded-md hover:bg-primary-medium transition duration-300"><i class="fas fa-cog mr-2"></i> Configurações</a></li>
+        <ul class="lista-menu-mobile">
+            <li><a href="#" class="item-menu-mobile"><i class="fas fa-home icone-menu"></i> Início</a></li>
+            <li><a href="#" class="item-menu-mobile"><i class="fas fa-users icone-menu"></i> Clientes</a></li>
+            <li><a href="#" class="item-menu-mobile"><i class="fas fa-user-tie icone-menu"></i> Profissionais</a></li>
+            <li><a href="#" class="item-menu-mobile"><i class="fas fa-cog icone-menu"></i> Configurações</a></li>
         </ul>
     </nav>
 
-    <main class="flex-grow container mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Coluna de Registro -->
-        <section class="lg:col-span-1 flex flex-col gap-8">
-            <!-- Registro de Clientes -->
-            <div class="bg-white p-6 rounded-lg shadow-lg border border-primary-medium">
-                <h2 class="text-2xl font-semibold mb-4 text-primary-dark">Registrar Cliente</h2>
-                <form id="client-form" class="space-y-4">
+    <main class="area-conteudo-principal">
+        <section class="coluna-lista">
+            <h2 class="titulo-secao texto-centralizado">Clientes em Espera</h2>
+            <div id="clientes-espera" class="lista-clientes-espera zona-soltar-item fila-profissional">
+                <p class="mensagem-lista-vazia" id="mensagem-sem-clientes-espera">Nenhum cliente em espera.</p>
+            </div>
+        </section>
+
+        <section class="coluna-lista">
+            <h2 class="titulo-secao texto-centralizado">Profissionais do Dia</h2>
+            <button id="botao-atribuir-proximo" class="botao-atribuir-proximo">
+                <i class="fas fa-hand-point-right icone-botao"></i> Atribuir Próximo Cliente
+            </button>
+            <div id="lista-profissionais" class="grade-profissionais">
+                <p class="mensagem-lista-vazia" id="mensagem-sem-profissionais">Nenhum profissional registrado.</p>
+            </div>
+        </section>
+        <section class="coluna-registro">
+            <div class="cartao-registro">
+                <h2 class="titulo-secao">Registrar Cliente</h2>
+                <form id="form-cliente" class="formulario-registro">
                     <div>
-                        <label for="client-name" class="block text-sm font-medium text-gray-700">Nome do Cliente</label>
-                        <input type="text" id="client-name" name="clientName" class="mt-1 block w-full p-2 border border-primary-medium rounded-md shadow-sm focus:ring-accent focus:border-accent" placeholder="Nome Completo" required>
+                        <label for="nome-cliente" class="rotulo-campo">Nome do Cliente</label>
+                        <input type="text" id="nome-cliente" name="clientName" class="campo-entrada" placeholder="Nome Completo" required>
                     </div>
                     <div>
-                        <label for="client-procedure" class="block text-sm font-medium text-gray-700">Procedimento</label>
-                        <input type="text" id="client-procedure" name="clientProcedure" class="mt-1 block w-full p-2 border border-primary-medium rounded-md shadow-sm focus:ring-accent focus:border-accent" placeholder="Corte, Manicure, etc." required>
+                        <label for="procedimento-cliente" class="rotulo-campo">Procedimento</label>
+                        <input type="text" id="procedimento-cliente" name="clientProcedure" class="campo-entrada" placeholder="Corte, Manicure, etc." required>
                     </div>
-                    <button type="submit" class="w-full bg-accent text-white py-2 px-4 rounded-md hover:bg-primary-dark transition duration-300 ease-in-out shadow-md">
-                        <i class="fas fa-user-plus mr-2"></i> Adicionar Cliente
+                    <button type="submit" class="botao-acao">
+                        <i class="fas fa-user-plus icone-botao"></i> Adicionar Cliente
                     </button>
                 </form>
             </div>
 
-            <!-- Registro de Profissionais -->
-            <div class="bg-white p-6 rounded-lg shadow-lg border border-primary-medium">
-                <h2 class="text-2xl font-semibold mb-4 text-primary-dark">Registrar Profissional do Dia</h2>
-                <form id="professional-form" class="space-y-4">
+            <div class="cartao-registro">
+                <h2 class="titulo-secao">Registrar Profissional do Dia</h2>
+                <form id="form-profissional" class="formulario-registro">
                     <div>
-                        <label for="professional-name" class="block text-sm font-medium text-gray-700">Nome do Profissional</label>
-                        <input type="text" id="professional-name" name="professionalName" class="mt-1 block w-full p-2 border border-primary-medium rounded-md shadow-sm focus:ring-accent focus:border-accent" placeholder="Nome do Profissional" required>
+                        <label for="nome-profissional" class="rotulo-campo">Nome do Profissional</label>
+                        <input type="text" id="nome-profissional" name="professionalName" class="campo-entrada" placeholder="Nome do Profissional" required>
                     </div>
                     <div>
-                        <label for="professional-function" class="block text-sm font-medium text-gray-700">Função</label>
-                        <select id="professional-function" name="professionalFunction" class="mt-1 block w-full p-2 border border-primary-medium rounded-md shadow-sm focus:ring-accent focus:border-accent" required>
+                        <label for="funcao-profissional" class="rotulo-campo">Função</label>
+                        <select id="funcao-profissional" name="professionalFunction" class="campo-entrada" required>
                             <option value="">Selecione a Função</option>
                             <option value="Cabelereiro">Cabelereiro</option>
                             <option value="Manicure">Manicure</option>
                         </select>
                     </div>
-                    <button type="submit" class="w-full bg-accent text-white py-2 px-4 rounded-md hover:bg-primary-dark transition duration-300 ease-in-out shadow-md">
-                        <i class="fas fa-user-tie mr-2"></i> Adicionar Profissional
+                    <button type="submit" class="botao-acao">
+                        <i class="fas fa-user-tie icone-botao"></i> Adicionar Profissional
                     </button>
                 </form>
             </div>
         </section>
 
-        <!-- Coluna de Clientes em Espera -->
-        <section class="lg:col-span-1 bg-primary-light p-6 rounded-lg shadow-lg border border-primary-medium flex flex-col">
-            <h2 class="text-2xl font-semibold mb-4 text-primary-dark text-center">Clientes em Espera</h2>
-            <div id="waiting-clients" class="flex-grow p-4 bg-white rounded-md border border-primary-medium drop-target space-y-3 professional-queue">
-                <!-- Client cards will be added here -->
-                <p class="text-center text-gray-500 italic" id="no-waiting-clients-message">Nenhum cliente em espera.</p>
-            </div>
-        </section>
-
-        <!-- Coluna de Profissionais do Dia -->
-        <section class="lg:col-span-1 bg-primary-light p-6 rounded-lg shadow-lg border border-primary-medium flex flex-col">
-            <h2 class="text-2xl font-semibold mb-4 text-primary-dark text-center">Profissionais do Dia</h2>
-            <button id="assign-next-client-btn" class="w-full bg-primary-dark text-white py-2 px-4 rounded-md hover:bg-accent transition duration-300 ease-in-out shadow-md mb-4">
-                <i class="fas fa-hand-point-right mr-2"></i> Atribuir Próximo Cliente
-            </button>
-            <div id="professionals-list" class="flex-grow grid grid-cols-1 gap-6">
-                <!-- Professional cards will be added here -->
-                <p class="text-center text-gray-500 italic" id="no-professionals-message">Nenhum profissional registrado.</p>
-            </div>
-        </section>
+        
     </main>
 
-    <!-- Message Box for alerts -->
-    <div id="message-box" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
-        <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center border border-primary-dark">
-            <p id="message-content" class="text-lg font-semibold mb-4 text-gray-800"></p>
-            <button id="message-ok-button" class="bg-accent text-white py-2 px-4 rounded-md hover:bg-primary-dark transition duration-300 ease-in-out shadow-md">OK</button>
+    <div id="caixa-mensagem" class="caixa-mensagem oculto">
+        <div class="conteudo-caixa-mensagem">
+            <p id="conteudo-mensagem" class="texto-mensagem"></p>
+            <button id="botao-ok-mensagem" class="botao-confirmacao-mensagem">OK</button>
         </div>
+    </div>
+    <?php endif; ?>
     </div>
 
     <script>
@@ -114,19 +137,19 @@
         let professionals = [];
 
         // DOM Elements
-        const clientForm = document.getElementById('client-form');
-        const professionalForm = document.getElementById('professional-form');
-        const waitingClientsContainer = document.getElementById('waiting-clients');
-        const professionalsListContainer = document.getElementById('professionals-list');
-        const noWaitingClientsMessage = document.getElementById('no-waiting-clients-message');
-        const noProfessionalsMessage = document.getElementById('no-professionals-message');
-        const messageBox = document.getElementById('message-box');
-        const messageContent = document.getElementById('message-content');
-        const messageOkButton = document.getElementById('message-ok-button');
-        const assignNextClientBtn = document.getElementById('assign-next-client-btn');
-        const menuToggle = document.getElementById('menu-toggle');
-        const mobileSidebar = document.getElementById('mobile-sidebar');
-        const closeMenu = document.getElementById('close-menu');
+        const clientForm = document.getElementById('form-cliente');
+        const professionalForm = document.getElementById('form-profissional');
+        const waitingClientsContainer = document.getElementById('clientes-espera');
+        const professionalsListContainer = document.getElementById('lista-profissionais');
+        const noWaitingClientsMessage = document.getElementById('mensagem-sem-clientes-espera');
+        const noProfessionalsMessage = document.getElementById('mensagem-sem-profissionais');
+        const messageBox = document.getElementById('caixa-mensagem');
+        const messageContent = document.getElementById('conteudo-mensagem');
+        const messageOkButton = document.getElementById('botao-ok-mensagem');
+        const assignNextClientBtn = document.getElementById('botao-atribuir-proximo');
+        const menuToggle = document.getElementById('menu-alternar');
+        const mobileSidebar = document.getElementById('menu-lateral-mobile');
+        const closeMenu = document.getElementById('fechar-menu');
 
         // --- Utility Functions ---
 
@@ -136,14 +159,14 @@
          */
         function showMessageBox(message) {
             messageContent.textContent = message;
-            messageBox.classList.remove('hidden');
+            messageBox.classList.remove('oculto');
         }
 
         /**
          * Hides the custom message box.
          */
         function hideMessageBox() {
-            messageBox.classList.add('hidden');
+            messageBox.classList.add('oculto');
         }
 
         // --- Data Persistence (using localStorage for prototype) ---
@@ -182,24 +205,23 @@
             const clientCard = document.createElement('div');
             clientCard.id = `client-${client.id}`;
             clientCard.classList.add(
-                'client-card', 'draggable', 'bg-primary-light', 'p-3', 'rounded-md', 'shadow-sm',
-                'border', 'border-primary-medium', 'flex', 'items-center', 'justify-between', 'text-sm'
+                'cartao-cliente', 'arrastavel', 'zona-soltar-item'
             );
             clientCard.setAttribute('draggable', 'true');
             clientCard.dataset.clientId = client.id;
 
             clientCard.innerHTML = `
                 <div>
-                    <p class="font-medium">${client.name}</p>
-                    <p class="text-gray-600 text-xs">${client.procedure}</p>
+                    <p class="nome-cliente">${client.name}</p>
+                    <p class="procedimento-cliente">${client.procedure}</p>
                 </div>
-                <button class="remove-client-btn text-red-500 hover:text-red-700 transition-colors duration-200" data-client-id="${client.id}">
+                <button class="botao-remover-cliente" data-client-id="${client.id}">
                     <i class="fas fa-times-circle"></i>
                 </button>
             `;
 
             // Add event listener for removing client
-            clientCard.querySelector('.remove-client-btn').addEventListener('click', (e) => {
+            clientCard.querySelector('.botao-remover-cliente').addEventListener('click', (e) => {
                 const clientIdToRemove = e.currentTarget.dataset.clientId;
                 removeClient(clientIdToRemove);
             });
@@ -219,10 +241,10 @@
             const waitingClients = clients.filter(c => c.status === 'waiting');
 
             if (waitingClients.length === 0) {
-                noWaitingClientsMessage.classList.remove('hidden');
+                noWaitingClientsMessage.classList.remove('oculto');
                 waitingClientsContainer.appendChild(noWaitingClientsMessage);
             } else {
-                noWaitingClientsMessage.classList.add('hidden');
+                noWaitingClientsMessage.classList.add('oculto');
                 waitingClients.forEach(client => {
                     waitingClientsContainer.appendChild(createClientCard(client));
                 });
@@ -238,8 +260,7 @@
             const professionalCard = document.createElement('div');
             professionalCard.id = `professional-${professional.id}`;
             professionalCard.classList.add(
-                'bg-white', 'p-4', 'rounded-lg', 'shadow-md', 'border', 'border-primary-medium',
-                'flex', 'flex-col', 'gap-3'
+                'cartao-profissional'
             );
             professionalCard.dataset.professionalId = professional.id;
 
@@ -247,46 +268,46 @@
             let statusText = '';
             switch (professional.status) {
                 case 'total-livre':
-                    statusColor = 'bg-green-200 text-green-800';
+                    statusColor = 'status-livre';
                     statusText = 'Totalmente Livre';
                     break;
                 case 'livre-parcial':
-                    statusColor = 'bg-yellow-200 text-yellow-800';
+                    statusColor = 'status-parcial';
                     statusText = 'Livre Parcialmente';
                     break;
                 case 'ocupado':
-                    statusColor = 'bg-red-200 text-red-800';
+                    statusColor = 'status-ocupado';
                     statusText = 'Ocupado';
                     break;
             }
 
             professionalCard.innerHTML = `
-                <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-semibold text-primary-dark">${professional.name}</h3>
-                    <button class="remove-professional-btn text-red-500 hover:text-red-700 transition-colors duration-200" data-professional-id="${professional.id}">
+                <div class="cabecalho-profissional">
+                    <h3 class="nome-profissional">${professional.name}</h3>
+                    <button class="botao-remover-profissional" data-professional-id="${professional.id}">
                         <i class="fas fa-times-circle"></i>
                     </button>
                 </div>
-                <p class="text-gray-700 text-sm">${professional.function}</p>
-                <span class="status-badge text-xs font-medium px-2 py-1 rounded-full ${statusColor}">${statusText}</span>
+                <p class="funcao-profissional">${professional.function}</p>
+                <span class="emblema-status ${statusColor}">${statusText}</span>
 
-                <div class="current-client-area bg-primary-light p-3 rounded-md border border-primary-medium drop-target min-h-[70px] flex flex-col items-center justify-center text-center text-gray-500 italic" data-professional-id="${professional.id}" data-queue-type="current">
-                    ${professional.currentClient ? '' : 'Arraste o cliente para atender'}
-                    ${professional.currentClient ? `<button class="finish-service-btn mt-2 bg-green-500 text-white py-1 px-3 rounded-md hover:bg-green-600 transition duration-300 ease-in-out shadow-sm text-xs" data-professional-id="${professional.id}">Finalizar Atendimento</button>` : ''}
+                <div class="area-cliente-atual zona-soltar-item" data-professional-id="${professional.id}" data-queue-type="current">
+                    ${professional.currentClient ? '' : '<span class="texto-soltar">Arraste o cliente para atender</span>'}
+                    ${professional.currentClient ? `<button class="botao-finalizar-servico" data-professional-id="${professional.id}">Finalizar Atendimento</button>` : ''}
                 </div>
-                <div class="waiting-queue-area bg-primary-light p-3 rounded-md border border-primary-medium drop-target professional-queue space-y-2" data-professional-id="${professional.id}" data-queue-type="queue">
-                    <p class="text-center text-gray-500 italic text-sm ${professional.queue.length > 0 ? 'hidden' : ''}">Clientes na fila</p>
+                <div class="area-fila-espera zona-soltar-item fila-profissional" data-professional-id="${professional.id}" data-queue-type="queue">
+                    <p class="texto-soltar ${professional.queue.length > 0 ? 'oculto' : ''}">Clientes na fila</p>
                 </div>
             `;
 
             // Add event listener for removing professional
-            professionalCard.querySelector('.remove-professional-btn').addEventListener('click', (e) => {
+            professionalCard.querySelector('.botao-remover-profissional').addEventListener('click', (e) => {
                 const professionalIdToRemove = e.currentTarget.dataset.professionalId;
                 removeProfessional(professionalIdToRemove);
             });
 
             // Add event listener for finishing service
-            const finishServiceBtn = professionalCard.querySelector('.finish-service-btn');
+            const finishServiceBtn = professionalCard.querySelector('.botao-finalizar-servico');
             if (finishServiceBtn) {
                 finishServiceBtn.addEventListener('click', (e) => {
                     const professionalId = e.currentTarget.dataset.professionalId;
@@ -295,13 +316,13 @@
             }
 
             // Add drop event listeners to current client area
-            const currentClientArea = professionalCard.querySelector('.current-client-area');
+            const currentClientArea = professionalCard.querySelector('.area-cliente-atual');
             currentClientArea.addEventListener('dragover', handleDragOver);
             currentClientArea.addEventListener('dragleave', handleDragLeave);
             currentClientArea.addEventListener('drop', handleDrop);
 
             // Add drop event listeners to waiting queue area
-            const waitingQueueArea = professionalCard.querySelector('.waiting-queue-area');
+            const waitingQueueArea = professionalCard.querySelector('.area-fila-espera');
             waitingQueueArea.addEventListener('dragover', handleDragOver);
             waitingQueueArea.addEventListener('dragleave', handleDragLeave);
             waitingQueueArea.addEventListener('drop', handleDrop);
@@ -315,16 +336,16 @@
         function renderProfessionals() {
             professionalsListContainer.innerHTML = ''; // Clear existing cards
             if (professionals.length === 0) {
-                noProfessionalsMessage.classList.remove('hidden');
+                noProfessionalsMessage.classList.remove('oculto');
                 professionalsListContainer.appendChild(noProfessionalsMessage);
             } else {
-                noProfessionalsMessage.classList.add('hidden');
+                noProfessionalsMessage.classList.add('oculto');
                 professionals.forEach(professional => {
                     const professionalCard = createProfessionalCard(professional);
                     professionalsListContainer.appendChild(professionalCard);
 
                     // Render current client
-                    const currentClientArea = professionalCard.querySelector('.current-client-area');
+                    const currentClientArea = professionalCard.querySelector('.area-cliente-atual');
                     if (professional.currentClient) {
                         currentClientArea.innerHTML = ''; // Clear placeholder
                         const client = clients.find(c => c.id === professional.currentClient);
@@ -333,7 +354,7 @@
                         }
                         // Re-add finish service button after client card is added
                         const finishServiceBtn = document.createElement('button');
-                        finishServiceBtn.classList.add('finish-service-btn', 'mt-2', 'bg-green-500', 'text-white', 'py-1', 'px-3', 'rounded-md', 'hover:bg-green-600', 'transition', 'duration-300', 'ease-in-out', 'shadow-sm', 'text-xs');
+                        finishServiceBtn.classList.add('botao-finalizar-servico');
                         finishServiceBtn.dataset.professionalId = professional.id;
                         finishServiceBtn.textContent = 'Finalizar Atendimento';
                         finishServiceBtn.addEventListener('click', () => finishClientService(professional.id));
@@ -341,9 +362,9 @@
                     }
 
                     // Render clients in queue
-                    const waitingQueueArea = professionalCard.querySelector('.waiting-queue-area');
+                    const waitingQueueArea = professionalCard.querySelector('.area-fila-espera');
                     if (professional.queue.length > 0) {
-                        waitingQueueArea.querySelector('p').classList.add('hidden'); // Hide "Clientes na fila" message
+                        waitingQueueArea.querySelector('.texto-soltar').classList.add('oculto'); // Hide "Clientes na fila" message
                         professional.queue.forEach(clientId => {
                             const client = clients.find(c => c.id === clientId);
                             if (client) {
@@ -373,24 +394,23 @@
 
             const professionalCardElement = document.getElementById(`professional-${professionalId}`);
             if (professionalCardElement) {
-                const statusBadge = professionalCardElement.querySelector('.status-badge');
-                let statusColor = '';
+                const statusBadge = professionalCardElement.querySelector('.emblema-status');
+                statusBadge.classList.remove('status-livre', 'status-parcial', 'status-ocupado'); // Remove old status classes
                 let statusText = '';
                 switch (newStatus) {
                     case 'total-livre':
-                        statusColor = 'bg-green-200 text-green-800';
+                        statusBadge.classList.add('status-livre');
                         statusText = 'Totalmente Livre';
                         break;
                     case 'livre-parcial':
-                        statusColor = 'bg-yellow-200 text-yellow-800';
+                        statusBadge.classList.add('status-parcial');
                         statusText = 'Livre Parcialmente';
                         break;
                     case 'ocupado':
-                        statusColor = 'bg-red-200 text-red-800';
+                        statusBadge.classList.add('status-ocupado');
                         statusText = 'Ocupado';
                         break;
                 }
-                statusBadge.className = `status-badge text-xs font-medium px-2 py-1 rounded-full ${statusColor}`;
                 statusBadge.textContent = statusText;
             }
             saveData();
@@ -592,7 +612,7 @@
         function handleDragStart(e) {
             draggedClientCard = e.target;
             e.dataTransfer.setData('text/plain', e.target.dataset.clientId);
-            e.target.classList.add('dragging');
+            e.target.classList.add('arrastando');
         }
 
         /**
@@ -600,7 +620,7 @@
          * @param {Event} e - The drag event.
          */
         function handleDragEnd(e) {
-            e.target.classList.remove('dragging');
+            e.target.classList.remove('arrastando');
             draggedClientCard = null;
         }
 
@@ -610,8 +630,8 @@
          */
         function handleDragOver(e) {
             e.preventDefault(); // Necessary to allow dropping
-            if (e.target.classList.contains('drop-target')) {
-                e.target.classList.add('drag-over');
+            if (e.target.classList.contains('zona-soltar-item')) {
+                e.target.classList.add('zona-arrasto-ativa');
             }
         }
 
@@ -620,8 +640,8 @@
          * @param {Event} e - The drag event.
          */
         function handleDragLeave(e) {
-            if (e.target.classList.contains('drop-target')) {
-                e.target.classList.remove('drag-over');
+            if (e.target.classList.contains('zona-soltar-item')) {
+                e.target.classList.remove('zona-arrasto-ativa');
             }
         }
 
@@ -631,10 +651,10 @@
          */
         function handleDrop(e) {
             e.preventDefault();
-            const droppedOn = e.target.closest('.drop-target'); // Find the closest drop target
+            const droppedOn = e.target.closest('.zona-soltar-item'); // Find the closest drop target
             if (!droppedOn) return;
 
-            droppedOn.classList.remove('drag-over');
+            droppedOn.classList.remove('zona-arrasto-ativa');
 
             const clientId = e.dataTransfer.getData('text/plain');
             const client = clients.find(c => c.id === clientId);
@@ -660,7 +680,7 @@
             const clientIndex = clients.findIndex(c => c.id === clientId);
             if (clientIndex !== -1) {
                 // If client was moved from a professional and dropped on waiting list, set status to 'waiting'
-                if (droppedOn.id === 'waiting-clients' && clientMovedFromProfessional) {
+                if (droppedOn.id === 'clientes-espera' && clientMovedFromProfessional) {
                     clients[clientIndex].status = 'waiting';
                 } else if (targetQueueType === 'current') {
                     clients[clientIndex].status = 'in-service';
@@ -698,7 +718,7 @@
                     client.status = 'waiting-professional'; // Update client status
                     showMessageBox(`Cliente "${client.name}" adicionado à fila de "${professional.name}".`);
                 }
-            } else if (droppedOn.id === 'waiting-clients') {
+            } else if (droppedOn.id === 'clientes-espera') {
                 // Dropped back into waiting clients area
                 client.status = 'waiting';
                 showMessageBox(`Cliente "${client.name}" movido de volta para "Clientes em Espera".`);
@@ -723,8 +743,8 @@
         // Client Form Submission
         clientForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const clientName = document.getElementById('client-name').value.trim();
-            const clientProcedure = document.getElementById('client-procedure').value.trim();
+            const clientName = document.getElementById('nome-cliente').value.trim();
+            const clientProcedure = document.getElementById('procedimento-cliente').value.trim();
 
             if (clientName && clientProcedure) {
                 addClient(clientName, clientProcedure);
@@ -737,8 +757,8 @@
         // Professional Form Submission
         professionalForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const professionalName = document.getElementById('professional-name').value.trim();
-            const professionalFunction = document.getElementById('professional-function').value;
+            const professionalName = document.getElementById('nome-profissional').value.trim();
+            const professionalFunction = document.getElementById('funcao-profissional').value;
 
             if (professionalName && professionalFunction) {
                 addProfessional(professionalName, professionalFunction);
@@ -761,18 +781,18 @@
 
         // Mobile Menu Toggle
         menuToggle.addEventListener('click', () => {
-            mobileSidebar.classList.toggle('open');
+            mobileSidebar.classList.toggle('aberto');
         });
 
         // Close Mobile Menu
         closeMenu.addEventListener('click', () => {
-            mobileSidebar.classList.remove('open');
+            mobileSidebar.classList.remove('aberto');
         });
 
         // Close mobile menu if clicked outside (optional, but good UX)
         document.addEventListener('click', (e) => {
-            if (!mobileSidebar.contains(e.target) && !menuToggle.contains(e.target) && mobileSidebar.classList.contains('open')) {
-                mobileSidebar.classList.remove('open');
+            if (!mobileSidebar.contains(e.target) && !menuToggle.contains(e.target) && mobileSidebar.classList.contains('aberto')) {
+                mobileSidebar.classList.remove('aberto');
             }
         });
 
@@ -784,4 +804,4 @@
         });
     </script>
 </body>
-</html>
+</html> 
