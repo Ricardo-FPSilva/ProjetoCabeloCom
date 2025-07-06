@@ -1,11 +1,14 @@
 <?php
+// Inicia a sessão PHP para gerenciar o estado do usuário entre as requisições.
 session_start();
 
-// Usuário e senha fixos
+// Define credenciais fixas para o login do atendente.
 $usuario_correto = 'atendente';
 $senha_correta = 'senha123';
 
-// Verifica login
+// Bloco de lógica para processar o formulário de login.
+// Verifica se o formulário foi submetido e valida as credenciais.
+// Se corretas, define a sessão 'logado'; caso contrário, armazena uma mensagem de erro.
 if (isset($_POST['login'])) {
     if ($_POST['username'] === $usuario_correto && $_POST['password'] === $senha_correta) {
         $_SESSION['logado'] = true;
@@ -14,6 +17,9 @@ if (isset($_POST['login'])) {
     }
 }
 
+// Bloco de lógica para processar a requisição de logout.
+// Se o parâmetro 'logout' estiver presente na URL, a sessão é destruída
+// e o usuário é redirecionado para a página de login.
 if (isset($_GET['logout'])) {
     session_destroy();
     header('Location: ?');
@@ -25,15 +31,24 @@ if (isset($_GET['logout'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>cabelo.com - Gerenciamento de Clientes</title>
+    <!-- Inclusão de fontes e ícones externos, e do arquivo de estilos CSS personalizado. -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="corpo-pagina">
-    <div class="area-principal">
-    <?php if (!isset($_SESSION['logado'])): ?>
+    <!-- Contêiner principal da aplicação. A classe 'area-login' é aplicada
+         condicionalmente para estilizar a tela de login. -->
+    <div class="area-principal <?php echo (!isset($_SESSION['logado'])) ? 'area-login' : ''; ?>">
+    <?php
+    // Bloco condicional PHP: Exibe o formulário de login se o usuário não estiver logado.
+    if (!isset($_SESSION['logado'])):
+    ?>
         <h2 class="titulo-login">Login do Atendente</h2>
-        <?php if (!empty($erro)) echo "<p class='mensagem-erro'>$erro</p>"; ?>
+        <?php
+        // Exibe a mensagem de erro de login, se houver.
+        if (!empty($erro)) echo "<p class='mensagem-erro'>$erro</p>";
+        ?>
         <form method="post" class="formulario-login">
             <label class="rotulo-campo">Usuário:</label>
             <input type="text" name="username" class="campo-texto" required>
@@ -41,16 +56,21 @@ if (isset($_GET['logout'])) {
             <input type="password" name="password" class="campo-texto" required>
             <button type="submit" name="login" class="botao-principal">Entrar</button>
         </form>
-    <?php else: ?>
+    <?php
+    // Bloco condicional PHP: Exibe a interface principal do sistema se o usuário estiver logado.
+    else:
+    ?>
     <header class="cabecalho-aplicacao">
+        <!-- Botão para alternar o menu lateral em dispositivos móveis e título da aplicação. -->
         <button id="menu-alternar" class="botao-menu-mobile">
             <i class="fas fa-bars"></i>
         </button>
         <h1 class="titulo-aplicacao">cabelo.com</h1>
-
     </header>
 
+    <!-- Menu lateral para navegação em dispositivos móveis. -->
     <nav id="menu-lateral-mobile" class="menu-lateral-mobile">
+        <!-- Botão para fechar o menu e lista de itens de navegação. -->
         <button id="fechar-menu" class="botao-fechar-menu">
             <i class="fas fa-times"></i>
         </button>
@@ -59,27 +79,35 @@ if (isset($_GET['logout'])) {
             <li><a href="#" class="item-menu-mobile"><i class="fas fa-users icone-menu"></i> Clientes</a></li>
             <li><a href="#" class="item-menu-mobile"><i class="fas fa-user-tie icone-menu"></i> Profissionais</a></li>
             <li><a href="#" class="item-menu-mobile"><i class="fas fa-cog icone-menu"></i> Configurações</a></li>
+            <li><a href="?logout" class="item-menu-mobile"><i class="fas fa-sign-out-alt icone-menu"></i> Sair</a></li>
         </ul>
     </nav>
 
     <main class="area-conteudo-principal">
+        <!-- Seção para exibir a fila de clientes em espera. -->
         <section class="coluna-lista">
             <h2 class="titulo-secao texto-centralizado">Clientes em Espera</h2>
             <div id="clientes-espera" class="lista-clientes-espera zona-soltar-item fila-profissional">
+                <!-- Mensagem padrão quando não há clientes na fila. -->
                 <p class="mensagem-lista-vazia" id="mensagem-sem-clientes-espera">Nenhum cliente em espera.</p>
             </div>
         </section>
 
+        <!-- Seção para exibir a lista de profissionais e o botão de atribuição automática. -->
         <section class="coluna-lista">
             <h2 class="titulo-secao texto-centralizado">Profissionais do Dia</h2>
             <button id="botao-atribuir-proximo" class="botao-atribuir-proximo">
                 <i class="fas fa-hand-point-right icone-botao"></i> Atribuir Próximo Cliente
             </button>
             <div id="lista-profissionais" class="grade-profissionais">
+                <!-- Mensagem padrão quando não há profissionais registrados. -->
                 <p class="mensagem-lista-vazia" id="mensagem-sem-profissionais">Nenhum profissional registrado.</p>
             </div>
         </section>
+
+        <!-- Seção para os formulários de registro de cliente e profissional. -->
         <section class="coluna-registro">
+            <!-- Cartão e formulário para adicionar novos clientes. -->
             <div class="cartao-registro">
                 <h2 class="titulo-secao">Registrar Cliente</h2>
                 <form id="form-cliente" class="formulario-registro">
@@ -91,12 +119,23 @@ if (isset($_GET['logout'])) {
                         <label for="procedimento-cliente" class="rotulo-campo">Procedimento</label>
                         <input type="text" id="procedimento-cliente" name="clientProcedure" class="campo-entrada" placeholder="Corte, Manicure, etc." required>
                     </div>
+                    <!-- NOVO CAMPO: Tipo de Profissional Desejado -->
+                    <div>
+                        <label for="tipo-profissional-cliente" class="rotulo-campo">Tipo de Profissional Desejado</label>
+                        <select id="tipo-profissional-cliente" name="professionalType" class="campo-entrada" required>
+                            <option value="">Selecione o Tipo</option>
+                            <option value="Cabelereiro">Cabelereiro</option>
+                            <option value="Manicure">Manicure</option>
+                            <option value="Esteticista">Esteticista</option>
+                        </select>
+                    </div>
                     <button type="submit" class="botao-acao">
                         <i class="fas fa-user-plus icone-botao"></i> Adicionar Cliente
                     </button>
                 </form>
             </div>
 
+            <!-- Cartão e formulário para adicionar novos profissionais. -->
             <div class="cartao-registro">
                 <h2 class="titulo-secao">Registrar Profissional do Dia</h2>
                 <form id="form-profissional" class="formulario-registro">
@@ -110,6 +149,7 @@ if (isset($_GET['logout'])) {
                             <option value="">Selecione a Função</option>
                             <option value="Cabelereiro">Cabelereiro</option>
                             <option value="Manicure">Manicure</option>
+                            <option value="Esteticista">Esteticista</option>
                         </select>
                     </div>
                     <button type="submit" class="botao-acao">
@@ -118,25 +158,59 @@ if (isset($_GET['logout'])) {
                 </form>
             </div>
         </section>
-
-        
     </main>
 
+    <!-- Caixa de mensagem modal personalizada, utilizada para exibir alertas ao usuário. -->
     <div id="caixa-mensagem" class="caixa-mensagem oculto">
         <div class="conteudo-caixa-mensagem">
             <p id="conteudo-mensagem" class="texto-mensagem"></p>
             <button id="botao-ok-mensagem" class="botao-confirmacao-mensagem">OK</button>
         </div>
     </div>
-    <?php endif; ?>
+
+    <!-- NOVO MODAL DE EDIÇÃO DE CLIENTE -->
+    <div id="modal-editar-cliente" class="caixa-mensagem oculto">
+        <div class="conteudo-caixa-mensagem">
+            <h3 class="titulo-secao">Editar Cliente</h3>
+            <form id="form-editar-cliente" class="formulario-registro">
+                <input type="hidden" id="edit-client-id">
+                <div>
+                    <label for="edit-nome-cliente" class="rotulo-campo">Nome do Cliente</label>
+                    <input type="text" id="edit-nome-cliente" name="clientName" class="campo-entrada" required>
+                </div>
+                <div>
+                    <label for="edit-procedimento-cliente" class="rotulo-campo">Procedimento</label>
+                    <input type="text" id="edit-procedimento-cliente" name="clientProcedure" class="campo-entrada" required>
+                </div>
+                <div>
+                    <label for="edit-tipo-profissional-cliente" class="rotulo-campo">Tipo de Profissional Desejado</label>
+                    <select id="edit-tipo-profissional-cliente" name="professionalType" class="campo-entrada" required>
+                        <option value="">Selecione o Tipo</option>
+                        <option value="Cabelereiro">Cabelereiro</option>
+                        <option value="Manicure">Manicure</option>
+                        <option value="Esteticista">Esteticista</option>
+                    </select>
+                </div>
+                <div class="botoes-modal">
+                    <button type="submit" id="botao-salvar-edicao" class="botao-acao">Salvar Edição</button>
+                    <button type="button" id="botao-cancelar-edicao" class="botao-cancelar">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <?php
+    // Fecha o bloco condicional PHP.
+    endif;
+    ?>
     </div>
 
+    <!-- Bloco de script JavaScript para toda a lógica de interação e gerenciamento de dados. -->
     <script>
-        // Global variables for managing data
+        // Variáveis globais para armazenar dados de clientes e profissionais (persistidos via localStorage).
         let clients = [];
         let professionals = [];
 
-        // DOM Elements
+        // Referências aos elementos HTML (DOM) para manipulação via JavaScript.
         const clientForm = document.getElementById('form-cliente');
         const professionalForm = document.getElementById('form-profissional');
         const waitingClientsContainer = document.getElementById('clientes-espera');
@@ -151,11 +225,22 @@ if (isset($_GET['logout'])) {
         const mobileSidebar = document.getElementById('menu-lateral-mobile');
         const closeMenu = document.getElementById('fechar-menu');
 
-        // --- Utility Functions ---
+        // Referências para o novo modal de edição de cliente
+        const editClientModal = document.getElementById('modal-editar-cliente');
+        const editClientForm = document.getElementById('form-editar-cliente');
+        const editClientIdInput = document.getElementById('edit-client-id');
+        const editClientNameInput = document.getElementById('edit-nome-cliente');
+        const editClientProcedureInput = document.getElementById('edit-procedimento-cliente');
+        const editClientProfessionalTypeInput = document.getElementById('edit-tipo-profissional-cliente');
+        const saveEditButton = document.getElementById('botao-salvar-edicao');
+        const cancelEditButton = document.getElementById('botao-cancelar-edicao');
+
+
+        // --- Funções Utilitárias ---
 
         /**
-         * Displays a custom message box instead of alert().
-         * @param {string} message - The message to display.
+         * Exibe uma caixa de mensagem modal personalizada.
+         * @param {string} message - A mensagem a ser exibida.
          */
         function showMessageBox(message) {
             messageContent.textContent = message;
@@ -163,16 +248,16 @@ if (isset($_GET['logout'])) {
         }
 
         /**
-         * Hides the custom message box.
+         * Oculta a caixa de mensagem modal.
          */
         function hideMessageBox() {
             messageBox.classList.add('oculto');
         }
 
-        // --- Data Persistence (using localStorage for prototype) ---
+        // --- Persistência de Dados (usando localStorage para protótipo) ---
 
         /**
-         * Loads clients and professionals from localStorage.
+         * Carrega os dados de clientes e profissionais do localStorage do navegador.
          */
         function loadData() {
             const storedClients = localStorage.getItem('clients');
@@ -187,46 +272,62 @@ if (isset($_GET['logout'])) {
         }
 
         /**
-         * Saves clients and professionals to localStorage.
+         * Salva os dados de clientes e profissionais no localStorage do navegador.
          */
         function saveData() {
             localStorage.setItem('clients', JSON.stringify(clients));
             localStorage.setItem('professionals', JSON.stringify(professionals));
         }
 
-        // --- UI Rendering Functions ---
+        // --- Funções de Renderização da Interface do Usuário (UI) ---
 
         /**
-         * Creates a client card HTML element.
-         * @param {object} client - The client object.
-         * @returns {HTMLElement} The client card element.
+         * Cria e retorna um elemento HTML (card) para um cliente.
+         * Inclui o nome, procedimento e botões de ação (atribuir, remover, editar).
+         * Configura o card para ser arrastável (drag-and-drop).
+         * @param {object} client - O objeto cliente.
+         * @returns {HTMLElement} O elemento div do card do cliente.
          */
         function createClientCard(client) {
             const clientCard = document.createElement('div');
             clientCard.id = `client-${client.id}`;
-            clientCard.classList.add(
-                'cartao-cliente', 'arrastavel', 'zona-soltar-item'
-            );
+            clientCard.classList.add('cartao-cliente', 'arrastavel');
             clientCard.setAttribute('draggable', 'true');
             clientCard.dataset.clientId = client.id;
 
             clientCard.innerHTML = `
                 <div>
                     <p class="nome-cliente">${client.name}</p>
-                    <p class="procedimento-cliente">${client.procedure}</p>
+                    <p class="procedimento-cliente">${client.procedure} (${client.professionalType})</p>
                 </div>
-                <button class="botao-remover-cliente" data-client-id="${client.id}">
-                    <i class="fas fa-times-circle"></i>
-                </button>
+                <div class="acoes-cliente">
+                    <button class="botao-atribuir-cliente" data-client-id="${client.id}">
+                        <i class="fas fa-user-plus"></i> Atribuir
+                    </button>
+                    <button class="botao-editar-cliente" data-client-id="${client.id}">
+                        <i class="fas fa-edit"></i> Editar
+                    </button>
+                    <button class="botao-remover-cliente" data-client-id="${client.id}">
+                        <i class="fas fa-times-circle"></i>
+                    </button>
+                </div>
             `;
 
-            // Add event listener for removing client
             clientCard.querySelector('.botao-remover-cliente').addEventListener('click', (e) => {
                 const clientIdToRemove = e.currentTarget.dataset.clientId;
                 removeClient(clientIdToRemove);
             });
 
-            // Add drag event listeners
+            clientCard.querySelector('.botao-atribuir-cliente').addEventListener('click', (e) => {
+                const clientIdToAssign = e.currentTarget.dataset.clientId;
+                assignClientToProfessional(clientIdToAssign);
+            });
+
+            clientCard.querySelector('.botao-editar-cliente').addEventListener('click', (e) => {
+                const clientIdToEdit = e.currentTarget.dataset.clientId;
+                editClient(clientIdToEdit);
+            });
+
             clientCard.addEventListener('dragstart', handleDragStart);
             clientCard.addEventListener('dragend', handleDragEnd);
 
@@ -234,10 +335,11 @@ if (isset($_GET['logout'])) {
         }
 
         /**
-         * Renders all clients in the waiting list.
+         * Renderiza todos os clientes na fila de espera, limpando o contêiner
+         * e adicionando os cards dos clientes com status 'waiting'.
          */
         function renderWaitingClients() {
-            waitingClientsContainer.innerHTML = ''; // Clear existing cards
+            waitingClientsContainer.innerHTML = '';
             const waitingClients = clients.filter(c => c.status === 'waiting');
 
             if (waitingClients.length === 0) {
@@ -252,16 +354,16 @@ if (isset($_GET['logout'])) {
         }
 
         /**
-         * Creates a professional card HTML element.
-         * @param {object} professional - The professional object.
-         * @returns {HTMLElement} The professional card element.
+         * Cria e retorna um elemento HTML (card) para um profissional.
+         * Exibe nome, função, status (com cor e texto), e um botão para alternar pausa.
+         * Inclui áreas para o cliente atual e a fila de clientes do profissional.
+         * @param {object} professional - O objeto profissional.
+         * @returns {HTMLElement} O elemento div do card do profissional.
          */
         function createProfessionalCard(professional) {
             const professionalCard = document.createElement('div');
             professionalCard.id = `professional-${professional.id}`;
-            professionalCard.classList.add(
-                'cartao-profissional'
-            );
+            professionalCard.classList.add('cartao-profissional');
             professionalCard.dataset.professionalId = professional.id;
 
             let statusColor = '';
@@ -279,6 +381,10 @@ if (isset($_GET['logout'])) {
                     statusColor = 'status-ocupado';
                     statusText = 'Ocupado';
                     break;
+                case 'em-pausa':
+                    statusColor = 'status-pausa';
+                    statusText = 'Em Pausa';
+                    break;
             }
 
             professionalCard.innerHTML = `
@@ -289,10 +395,17 @@ if (isset($_GET['logout'])) {
                     </button>
                 </div>
                 <p class="funcao-profissional">${professional.function}</p>
-                <span class="emblema-status ${statusColor}">${statusText}</span>
+                <div class="status-e-toggle">
+                    <span class="emblema-status ${statusColor}">${statusText}</span>
+                    <button class="botao-alternar-pausa" data-professional-id="${professional.id}">
+                        <i class="fas ${professional.manualPause ? 'fa-play-circle' : 'fa-pause-circle'}"></i>
+                        ${professional.manualPause ? 'Retomar' : 'Pausar'}
+                    </button>
+                </div>
 
                 <div class="area-cliente-atual zona-soltar-item" data-professional-id="${professional.id}" data-queue-type="current">
                     ${professional.currentClient ? '' : '<span class="texto-soltar">Arraste o cliente para atender</span>'}
+                    ${professional.currentClient ? `<div class="cliente-em-atendimento" data-client-id="${professional.currentClient}"></div>` : ''}
                     ${professional.currentClient ? `<button class="botao-finalizar-servico" data-professional-id="${professional.id}">Finalizar Atendimento</button>` : ''}
                 </div>
                 <div class="area-fila-espera zona-soltar-item fila-profissional" data-professional-id="${professional.id}" data-queue-type="queue">
@@ -300,13 +413,11 @@ if (isset($_GET['logout'])) {
                 </div>
             `;
 
-            // Add event listener for removing professional
             professionalCard.querySelector('.botao-remover-profissional').addEventListener('click', (e) => {
                 const professionalIdToRemove = e.currentTarget.dataset.professionalId;
                 removeProfessional(professionalIdToRemove);
             });
 
-            // Add event listener for finishing service
             const finishServiceBtn = professionalCard.querySelector('.botao-finalizar-servico');
             if (finishServiceBtn) {
                 finishServiceBtn.addEventListener('click', (e) => {
@@ -315,13 +426,16 @@ if (isset($_GET['logout'])) {
                 });
             }
 
-            // Add drop event listeners to current client area
+            professionalCard.querySelector('.botao-alternar-pausa').addEventListener('click', (e) => {
+                const professionalId = e.currentTarget.dataset.professionalId;
+                toggleProfessionalPause(professionalId);
+            });
+
             const currentClientArea = professionalCard.querySelector('.area-cliente-atual');
             currentClientArea.addEventListener('dragover', handleDragOver);
             currentClientArea.addEventListener('dragleave', handleDragLeave);
             currentClientArea.addEventListener('drop', handleDrop);
 
-            // Add drop event listeners to waiting queue area
             const waitingQueueArea = professionalCard.querySelector('.area-fila-espera');
             waitingQueueArea.addEventListener('dragover', handleDragOver);
             waitingQueueArea.addEventListener('dragleave', handleDragLeave);
@@ -331,10 +445,11 @@ if (isset($_GET['logout'])) {
         }
 
         /**
-         * Renders all professionals and their assigned clients.
+         * Renderiza todos os profissionais e seus clientes atribuídos (atuais e em fila),
+         * limpando o contêiner e recriando os cards dos profissionais.
          */
         function renderProfessionals() {
-            professionalsListContainer.innerHTML = ''; // Clear existing cards
+            professionalsListContainer.innerHTML = '';
             if (professionals.length === 0) {
                 noProfessionalsMessage.classList.remove('oculto');
                 professionalsListContainer.appendChild(noProfessionalsMessage);
@@ -344,27 +459,17 @@ if (isset($_GET['logout'])) {
                     const professionalCard = createProfessionalCard(professional);
                     professionalsListContainer.appendChild(professionalCard);
 
-                    // Render current client
-                    const currentClientArea = professionalCard.querySelector('.area-cliente-atual');
-                    if (professional.currentClient) {
-                        currentClientArea.innerHTML = ''; // Clear placeholder
+                    const currentClientDiv = professionalCard.querySelector('.cliente-em-atendimento');
+                    if (professional.currentClient && currentClientDiv) {
                         const client = clients.find(c => c.id === professional.currentClient);
                         if (client) {
-                            currentClientArea.appendChild(createClientCard(client));
+                            currentClientDiv.appendChild(createClientCard(client));
                         }
-                        // Re-add finish service button after client card is added
-                        const finishServiceBtn = document.createElement('button');
-                        finishServiceBtn.classList.add('botao-finalizar-servico');
-                        finishServiceBtn.dataset.professionalId = professional.id;
-                        finishServiceBtn.textContent = 'Finalizar Atendimento';
-                        finishServiceBtn.addEventListener('click', () => finishClientService(professional.id));
-                        currentClientArea.appendChild(finishServiceBtn);
                     }
 
-                    // Render clients in queue
                     const waitingQueueArea = professionalCard.querySelector('.area-fila-espera');
                     if (professional.queue.length > 0) {
-                        waitingQueueArea.querySelector('.texto-soltar').classList.add('oculto'); // Hide "Clientes na fila" message
+                        waitingQueueArea.querySelector('.texto-soltar').classList.add('oculto');
                         professional.queue.forEach(clientId => {
                             const client = clients.find(c => c.id === clientId);
                             if (client) {
@@ -377,25 +482,30 @@ if (isset($_GET['logout'])) {
         }
 
         /**
-         * Updates the status badge of a professional.
-         * @param {string} professionalId - The ID of the professional.
+         * Atualiza o status lógico e visual de um profissional, considerando
+         * se ele está em pausa manual, atendendo um cliente, ou tem clientes na fila.
+         * @param {string} professionalId - O ID do profissional.
          */
         function updateProfessionalStatus(professionalId) {
             const professional = professionals.find(p => p.id === professionalId);
             if (!professional) return;
 
-            let newStatus = 'total-livre';
-            if (professional.currentClient) {
+            let newStatus = '';
+            if (professional.manualPause) {
+                newStatus = 'em-pausa';
+            } else if (professional.currentClient) {
                 newStatus = 'ocupado';
             } else if (professional.queue.length > 0) {
                 newStatus = 'livre-parcial';
+            } else {
+                newStatus = 'total-livre';
             }
             professional.status = newStatus;
 
             const professionalCardElement = document.getElementById(`professional-${professionalId}`);
             if (professionalCardElement) {
                 const statusBadge = professionalCardElement.querySelector('.emblema-status');
-                statusBadge.classList.remove('status-livre', 'status-parcial', 'status-ocupado'); // Remove old status classes
+                statusBadge.classList.remove('status-livre', 'status-parcial', 'status-ocupado', 'status-pausa');
                 let statusText = '';
                 switch (newStatus) {
                     case 'total-livre':
@@ -410,25 +520,31 @@ if (isset($_GET['logout'])) {
                         statusBadge.classList.add('status-ocupado');
                         statusText = 'Ocupado';
                         break;
+                    case 'em-pausa':
+                        statusBadge.classList.add('status-pausa');
+                        statusText = 'Em Pausa';
+                        break;
                 }
                 statusBadge.textContent = statusText;
             }
             saveData();
         }
 
-        // --- Client Management Functions ---
+        // --- Funções de Gerenciamento de Clientes ---
 
         /**
-         * Adds a new client.
-         * @param {string} name - Client's name.
-         * @param {string} procedure - Client's requested procedure.
+         * Adiciona um novo cliente à lista de espera, incluindo o tipo de profissional desejado.
+         * @param {string} name - Nome do cliente.
+         * @param {string} procedure - Procedimento solicitado.
+         * @param {string} professionalType - Tipo de profissional desejado.
          */
-        function addClient(name, procedure) {
+        function addClient(name, procedure, professionalType) {
             const newClient = {
-                id: Date.now().toString(), // Simple unique ID
+                id: Date.now().toString(),
                 name: name,
                 procedure: procedure,
-                status: 'waiting' // 'waiting', 'in-service', 'done'
+                professionalType: professionalType,
+                status: 'waiting'
             };
             clients.push(newClient);
             saveData();
@@ -437,48 +553,115 @@ if (isset($_GET['logout'])) {
         }
 
         /**
-         * Removes a client from the system.
-         * @param {string} clientIdToRemove - The ID of the client to remove.
+         * Remove um cliente do sistema. Impede a remoção se o cliente
+         * estiver sendo atendido por um profissional.
+         * @param {string} clientIdToRemove - O ID do cliente a ser removido.
          */
         function removeClient(clientIdToRemove) {
-            // Check if client is currently assigned to a professional
             const professionalWithClient = professionals.find(p => p.currentClient === clientIdToRemove);
             if (professionalWithClient) {
                 showMessageBox('Não é possível remover o cliente enquanto ele está sendo atendido por um profissional. Finalize o atendimento primeiro.');
                 return;
             }
 
-            // Remove from waiting list or professional queue
             clients = clients.filter(c => c.id !== clientIdToRemove);
 
-            // Remove from any professional's queue if present
             professionals.forEach(p => {
                 p.queue = p.queue.filter(id => id !== clientIdToRemove);
-                updateProfessionalStatus(p.id); // Update status after removing from queue
+                updateProfessionalStatus(p.id);
             });
 
             saveData();
             renderWaitingClients();
-            renderProfessionals(); // Re-render professionals to update queues
+            renderProfessionals();
             showMessageBox('Cliente removido com sucesso!');
         }
 
-        // --- Professional Management Functions ---
+        /**
+         * Preenche o modal de edição com os dados do cliente e o exibe.
+         * @param {string} clientId - O ID do cliente a ser editado.
+         */
+        function editClient(clientId) {
+            console.log('Iniciando edição para o cliente ID:', clientId);
+            const client = clients.find(c => c.id === clientId);
+            if (!client) {
+                showMessageBox('Cliente não encontrado para edição.');
+                console.error('Erro: Cliente não encontrado para edição. ID:', clientId);
+                return;
+            }
+
+            editClientIdInput.value = client.id;
+            editClientNameInput.value = client.name;
+            editClientProcedureInput.value = client.procedure;
+            editClientProfessionalTypeInput.value = client.professionalType;
+            console.log('Dados do cliente preenchidos no modal:', client);
+
+            editClientModal.classList.remove('oculto');
+        }
 
         /**
-         * Adds a new professional.
-         * @param {string} name - Professional's name.
-         * @param {string} func - Professional's function.
+         * Salva as edições de um cliente.
+         * Encontra o cliente pelo ID e atualiza suas propriedades.
+         */
+        function saveEditedClient() {
+            const clientId = editClientIdInput.value;
+            const clientIndex = clients.findIndex(c => c.id === clientId);
+            console.log('Tentando salvar edição para o cliente ID:', clientId);
+
+            if (clientIndex === -1) {
+                showMessageBox('Erro: Cliente não encontrado para salvar edição.');
+                console.error('Erro: Cliente não encontrado no array para salvar edição. ID:', clientId);
+                return;
+            }
+
+            const updatedName = editClientNameInput.value.trim();
+            const updatedProcedure = editClientProcedureInput.value.trim();
+            const updatedProfessionalType = editClientProfessionalTypeInput.value;
+
+            if (!updatedName || !updatedProcedure || !updatedProfessionalType) {
+                showMessageBox('Por favor, preencha todos os campos para editar o cliente.');
+                console.warn('Campos de edição vazios.');
+                return;
+            }
+
+            clients[clientIndex].name = updatedName;
+            clients[clientIndex].procedure = updatedProcedure;
+            clients[clientIndex].professionalType = updatedProfessionalType;
+            console.log('Cliente atualizado no array:', clients[clientIndex]);
+
+            saveData();
+            renderAll(); // Re-renderiza tudo para refletir as mudanças
+            hideEditClientModal();
+            showMessageBox('Cliente editado com sucesso!');
+        }
+
+        /**
+         * Oculta o modal de edição de cliente.
+         */
+        function hideEditClientModal() {
+            editClientModal.classList.add('oculto');
+            editClientForm.reset(); // Limpa o formulário do modal
+            console.log('Modal de edição ocultado.');
+        }
+
+
+        // --- Funções de Gerenciamento de Profissionais ---
+
+        /**
+         * Adiciona um novo profissional ao sistema.
+         * @param {string} name - Nome do profissional.
+         * @param {string} func - Função do profissional.
          */
         function addProfessional(name, func) {
             const newProfessional = {
-                id: Date.now().toString(), // Simple unique ID
+                id: Date.now().toString(),
                 name: name,
                 function: func,
-                status: 'total-livre', // 'total-livre', 'livre-parcial', 'ocupado'
+                status: 'total-livre',
+                manualPause: false,
                 currentClient: null,
                 queue: [],
-                lastFinishedTime: Date.now() // Initialize with current time for turn order
+                lastFinishedTime: Date.now()
             };
             professionals.push(newProfessional);
             saveData();
@@ -487,8 +670,9 @@ if (isset($_GET['logout'])) {
         }
 
         /**
-         * Removes a professional from the system.
-         * @param {string} professionalIdToRemove - The ID of the professional to remove.
+         * Remove um profissional do sistema. Impede a remoção se ele
+         * tiver clientes em atendimento ou na fila.
+         * @param {string} professionalIdToRemove - O ID do profissional.
          */
         function removeProfessional(professionalIdToRemove) {
             const professional = professionals.find(p => p.id === professionalIdToRemove);
@@ -506,8 +690,30 @@ if (isset($_GET['logout'])) {
         }
 
         /**
-         * Handles finishing a client's service.
-         * @param {string} professionalId - The ID of the professional.
+         * Alterna o status de pausa manual de um profissional. Impede a pausa
+         * se o profissional estiver atendendo ou tiver clientes na fila.
+         * @param {string} professionalId - O ID do profissional.
+         */
+        function toggleProfessionalPause(professionalId) {
+            const professional = professionals.find(p => p.id === professionalId);
+            if (!professional) return;
+
+            if (professional.currentClient || professional.queue.length > 0) {
+                showMessageBox('Não é possível colocar o profissional em pausa enquanto ele tem clientes sendo atendidos ou na fila.');
+                return;
+            }
+
+            professional.manualPause = !professional.manualPause;
+            updateProfessionalStatus(professional.id);
+            renderProfessionals();
+            showMessageBox(`Profissional "${professional.name}" está agora ${professional.manualPause ? 'Em Pausa' : 'Disponível'}.`);
+            console.log(`Profissional ${professional.name} (ID: ${professional.id}) status de pausa alterado para: ${professional.manualPause}`);
+        }
+
+        /**
+         * Finaliza o atendimento de um cliente por um profissional.
+         * Move o próximo cliente da fila do profissional para o atendimento atual, se houver.
+         * @param {string} professionalId - O ID do profissional.
          */
         function finishClientService(professionalId) {
             const professional = professionals.find(p => p.id === professionalId);
@@ -517,127 +723,184 @@ if (isset($_GET['logout'])) {
             }
 
             const clientFinishedId = professional.currentClient;
+            const clientFinished = clients.find(c => c.id === clientFinishedId);
 
-            // Remove client from the global clients array (marking as 'done' could be an alternative)
             clients = clients.filter(c => c.id !== clientFinishedId);
 
-            professional.currentClient = null; // Clear current client
-            professional.lastFinishedTime = Date.now(); // Update last finished time
+            professional.currentClient = null;
+            professional.lastFinishedTime = Date.now();
 
-            // If there's a client in the queue, move them to current client
             if (professional.queue.length > 0) {
-                const nextClientId = professional.queue.shift(); // Remove first client from queue
+                const nextClientId = professional.queue.shift();
                 professional.currentClient = nextClientId;
                 const nextClient = clients.find(c => c.id === nextClientId);
                 if (nextClient) {
                     nextClient.status = 'in-service';
-                    showMessageBox(`Atendimento de "${clients.find(c => c.id === clientFinishedId)?.name}" finalizado. "${nextClient.name}" agora está sendo atendido por "${professional.name}".`);
+                    showMessageBox(`Atendimento de "${clientFinished?.name || 'Cliente'}" finalizado. "${nextClient.name}" agora está sendo atendido por "${professional.name}".`);
                 }
             } else {
-                showMessageBox(`Atendimento de "${clients.find(c => c.id === clientFinishedId)?.name}" finalizado. Profissional "${professional.name}" está livre.`);
+                showMessageBox(`Atendimento de "${clientFinished?.name || 'Cliente'}" finalizado. Profissional "${professional.name}" está livre.`);
             }
 
+            saveData();
+            renderAll();
+            console.log(`Serviço finalizado para o profissional ${professional.name}. Próximo cliente: ${professional.currentClient ? clients.find(c => c.id === professional.currentClient)?.name : 'Nenhum'}.`);
+        }
+
+        /**
+         * Encontra o próximo profissional disponível, priorizando 'total-livre',
+         * depois 'livre-parcial', e então o que finalizou o serviço há mais tempo.
+         * Filtra por tipo de profissional desejado, se fornecido.
+         * Exclui profissionais 'ocupado' e 'em-pausa'.
+         * @param {string} [requiredType] - O tipo de profissional necessário (opcional).
+         * @returns {object|null} O profissional mais disponível ou null.
+         */
+        function findNextAvailableProfessional(requiredType = null) {
+            let availableProfessionals = professionals.filter(p => p.status !== 'ocupado' && p.status !== 'em-pausa');
+            console.log('Profissionais disponíveis (antes de filtrar por tipo):', availableProfessionals.map(p => ({name: p.name, status: p.status, function: p.function})));
+
+            if (requiredType) {
+                availableProfessionals = availableProfessionals.filter(p => p.function === requiredType);
+                console.log(`Profissionais disponíveis (filtrados por tipo '${requiredType}'):`, availableProfessionals.map(p => ({name: p.name, status: p.status, function: p.function})));
+            }
+
+            if (availableProfessionals.length === 0) {
+                console.log('Nenhum profissional disponível após filtros.');
+                return null;
+            }
+
+            availableProfessionals.sort((a, b) => {
+                if (a.status === 'total-livre' && b.status !== 'total-livre') return -1;
+                if (b.status === 'total-livre' && a.status !== 'total-livre') return 1;
+                return a.lastFinishedTime - b.lastFinishedTime;
+            });
+            console.log('Próximo profissional disponível (após ordenação):', availableProfessionals[0]?.name, '(ID:', availableProfessionals[0]?.id, ')');
+            return availableProfessionals[0];
+        }
+
+        /**
+         * Atribui um cliente específico ao próximo profissional disponível que corresponda ao seu tipo de serviço.
+         * @param {string} clientId - O ID do cliente a ser atribuído.
+         */
+        function assignClientToProfessional(clientId) {
+            const clientToAssign = clients.find(c => c.id === clientId);
+            console.log('Tentando atribuir cliente:', clientToAssign);
+
+            if (!clientToAssign) {
+                showMessageBox('Cliente não encontrado.');
+                console.error('Erro: Cliente não encontrado para atribuição. ID:', clientId);
+                return;
+            }
+
+            if (clientToAssign.status !== 'waiting') {
+                showMessageBox('Este cliente já está em atendimento ou na fila de um profissional.');
+                console.warn('Cliente já atribuído ou em serviço. Status:', clientToAssign.status);
+                return;
+            }
+
+            const nextAvailableProfessional = findNextAvailableProfessional(clientToAssign.professionalType);
+            if (!nextAvailableProfessional) {
+                showMessageBox(`Nenhum profissional '${clientToAssign.professionalType}' disponível no momento para atender "${clientToAssign.name}".`);
+                console.warn(`Nenhum profissional '${clientToAssign.professionalType}' disponível para o cliente '${clientToAssign.name}'.`);
+                return;
+            }
+
+            // Remove o cliente da lista de espera principal
+            clients = clients.filter(c => c.id !== clientToAssign.id);
+
+            if (!nextAvailableProfessional.currentClient) {
+                nextAvailableProfessional.currentClient = clientToAssign.id;
+                clientToAssign.status = 'in-service';
+                showMessageBox(`Cliente "${clientToAssign.name}" atribuído a "${nextAvailableProfessional.name}" para atendimento.`);
+                console.log(`Cliente ${clientToAssign.name} atribuído diretamente a ${nextAvailableProfessional.name}.`);
+            } else {
+                nextAvailableProfessional.queue.push(clientToAssign.id);
+                clientToAssign.status = 'waiting-professional';
+                showMessageBox(`Cliente "${clientToAssign.name}" adicionado à fila de "${nextAvailableProfessional.name}".`);
+                console.log(`Cliente ${clientToAssign.name} adicionado à fila de ${nextAvailableProfessional.name}.`);
+            }
             saveData();
             renderAll();
         }
 
         /**
-         * Finds the next available professional based on status and last finished time.
-         * Prioritizes 'total-livre', then 'livre-parcial', then oldest lastFinishedTime.
-         * @returns {object|null} The next available professional, or null if none.
-         */
-        function findNextAvailableProfessional() {
-            // Filter professionals who are not 'ocupado'
-            const availableProfessionals = professionals.filter(p => p.status !== 'ocupado');
-
-            if (availableProfessionals.length === 0) {
-                return null; // No available professionals
-            }
-
-            // Sort by status ('total-livre' first, then 'livre-parcial') and then by lastFinishedTime (oldest first)
-            availableProfessionals.sort((a, b) => {
-                if (a.status === 'total-livre' && b.status !== 'total-livre') return -1;
-                if (b.status === 'total-livre' && a.status !== 'total-livre') return 1;
-                // If both are same status or both not 'total-livre', sort by lastFinishedTime
-                return a.lastFinishedTime - b.lastFinishedTime;
-            });
-
-            return availableProfessionals[0];
-        }
-
-        /**
-         * Assigns the next waiting client to the next available professional.
+         * Atribui o próximo cliente da fila de espera ao profissional mais disponível
+         * que corresponda ao tipo de serviço do cliente.
          */
         function assignNextWaitingClient() {
             const waitingClients = clients.filter(c => c.status === 'waiting');
+            console.log('Clientes em espera para atribuição automática:', waitingClients.map(c => c.name));
+
             if (waitingClients.length === 0) {
                 showMessageBox('Não há clientes em espera para atribuir.');
                 return;
             }
 
-            const nextAvailableProfessional = findNextAvailableProfessional();
-            if (!nextAvailableProfessional) {
-                showMessageBox('Nenhum profissional disponível no momento.');
-                return;
-            }
-
-            const clientToAssign = waitingClients[0]; // Get the first client in the waiting list
-
-            // Remove client from waiting list
-            clients = clients.filter(c => c.id !== clientToAssign.id);
-
-            // Assign client to professional's current slot or queue
-            if (!nextAvailableProfessional.currentClient) {
-                nextAvailableProfessional.currentClient = clientToAssign.id;
-                clientToAssign.status = 'in-service';
-                showMessageBox(`Cliente "${clientToAssign.name}" atribuído a "${nextAvailableProfessional.name}" para atendimento.`);
-            } else {
-                nextAvailableProfessional.queue.push(clientToAssign.id);
-                clientToAssign.status = 'waiting-professional';
-                showMessageBox(`Cliente "${clientToAssign.name}" adicionado à fila de "${nextAvailableProfessional.name}".`);
-            }
-            saveData();
-            renderAll();
+            const nextClient = waitingClients[0];
+            assignClientToProfessional(nextClient.id);
         }
 
 
-        // --- Drag and Drop Logic ---
+        // --- Lógica de Arrastar e Soltar (Drag and Drop) ---
 
         let draggedClientCard = null;
 
         /**
-         * Handles the dragstart event for client cards.
-         * @param {Event} e - The drag event.
+         * Manipula o início do arraste de um card de cliente.
+         * @param {Event} e - O evento de arraste.
          */
         function handleDragStart(e) {
             draggedClientCard = e.target;
             e.dataTransfer.setData('text/plain', e.target.dataset.clientId);
             e.target.classList.add('arrastando');
+            console.log('Drag iniciado para o cliente ID:', e.target.dataset.clientId);
         }
 
         /**
-         * Handles the dragend event for client cards.
-         * @param {Event} e - The drag event.
+         * Manipula o fim do arraste de um card de cliente.
+         * @param {Event} e - O evento de arraste.
          */
         function handleDragEnd(e) {
             e.target.classList.remove('arrastando');
             draggedClientCard = null;
+            console.log('Drag finalizado.');
         }
 
         /**
-         * Handles the dragover event for drop targets.
-         * @param {Event} e - The drag event.
+         * Permite que um elemento seja solto sobre uma zona de soltar.
+         * Impede o arraste sobre profissionais em pausa ou tipo incompatível.
+         * @param {Event} e - O evento de arraste.
          */
         function handleDragOver(e) {
-            e.preventDefault(); // Necessary to allow dropping
+            e.preventDefault();
+            const targetProfessionalId = e.target.closest('.cartao-profissional')?.dataset.professionalId;
+            const professional = professionals.find(p => p.id === targetProfessionalId);
+            const clientId = e.dataTransfer.getData('text/plain');
+            const client = clients.find(c => c.id === clientId);
+
+            // Log para depuração
+            // console.log('DragOver - Cliente:', client?.name, 'Tipo Cliente:', client?.professionalType, 'Profissional Alvo:', professional?.name, 'Função Profissional:', professional?.function, 'Pausa Manual:', professional?.manualPause);
+
+            if (professional && professional.manualPause) {
+                e.dataTransfer.dropEffect = 'none';
+                // console.log('DragOver - Drop impedido: Profissional em pausa.');
+                return;
+            }
+
+            if (professional && client && professional.function !== client.professionalType) {
+                e.dataTransfer.dropEffect = 'none';
+                // console.log('DragOver - Drop impedido: Tipo de profissional incompatível.');
+                return;
+            }
+
             if (e.target.classList.contains('zona-soltar-item')) {
                 e.target.classList.add('zona-arrasto-ativa');
             }
         }
 
         /**
-         * Handles the dragleave event for drop targets.
-         * @param {Event} e - The drag event.
+         * Remove o efeito visual quando o item arrastado sai de uma zona de soltar.
+         * @param {Event} e - O evento de arraste.
          */
         function handleDragLeave(e) {
             if (e.target.classList.contains('zona-soltar-item')) {
@@ -646,162 +909,198 @@ if (isset($_GET['logout'])) {
         }
 
         /**
-         * Handles the drop event for drop targets.
-         * @param {Event} e - The drag event.
+         * Processa a ação de soltar um cliente em uma zona de soltar.
+         * Gerencia a movimentação do cliente entre a fila de espera e os profissionais.
+         * Impede o drop sobre profissionais em pausa ou tipo incompatível.
+         * @param {Event} e - O evento de arraste.
          */
         function handleDrop(e) {
             e.preventDefault();
-            const droppedOn = e.target.closest('.zona-soltar-item'); // Find the closest drop target
-            if (!droppedOn) return;
+            const droppedOn = e.target.closest('.zona-soltar-item');
+            if (!droppedOn) {
+                console.warn('Drop realizado fora de uma zona de soltar válida.');
+                return;
+            }
 
             droppedOn.classList.remove('zona-arrasto-ativa');
 
             const clientId = e.dataTransfer.getData('text/plain');
             const client = clients.find(c => c.id === clientId);
-            if (!client) return;
+            console.log('Drop - Cliente ID:', clientId, 'Cliente Obj:', client);
+
+            if (!client) {
+                console.error('Erro no Drop: Cliente não encontrado.');
+                return;
+            }
 
             const targetQueueType = droppedOn.dataset.queueType;
             const targetProfessionalId = droppedOn.dataset.professionalId;
+            const professional = professionals.find(p => p.id === targetProfessionalId);
+            console.log('Drop - Profissional Alvo:', professional?.name, 'Tipo de Fila Alvo:', targetQueueType);
 
-            // Remove client from its current location (waiting list or any professional's queue/current)
-            // This ensures a client is only in one place at a time.
-            let clientMovedFromProfessional = null; // To track if client was moved from a professional
+
+            if (professional && professional.manualPause) {
+                showMessageBox('Não é possível atribuir clientes a um profissional em pausa.');
+                console.warn('Drop impedido: Profissional em pausa.');
+                renderAll(); // Re-renderiza para garantir que o estado visual esteja correto
+                return;
+            }
+            if (professional && client && professional.function !== client.professionalType) {
+                showMessageBox(`Este profissional (${professional.function}) não atende o tipo de serviço desejado pelo cliente (${client.professionalType}).`);
+                console.warn(`Drop impedido: Tipo de profissional incompatível. Profissional: ${professional.function}, Cliente: ${client.professionalType}`);
+                renderAll(); // Re-renderiza para garantir que o estado visual esteja correto
+                return;
+            }
+
+            // Remove o cliente de sua localização atual (fila de espera ou de outro profissional)
             professionals.forEach(p => {
                 if (p.currentClient === clientId) {
                     p.currentClient = null;
-                    clientMovedFromProfessional = p.id;
                     updateProfessionalStatus(p.id);
+                    console.log(`Cliente ${client.name} removido do atendimento atual de ${p.name}.`);
                 }
+                const initialQueueLength = p.queue.length;
                 p.queue = p.queue.filter(id => id !== clientId);
-                updateProfessionalStatus(p.id);
+                if (p.queue.length < initialQueueLength) {
+                    updateProfessionalStatus(p.id);
+                    console.log(`Cliente ${client.name} removido da fila de ${p.name}.`);
+                }
             });
 
-            // Update client status in the global clients array
-            const clientIndex = clients.findIndex(c => c.id === clientId);
-            if (clientIndex !== -1) {
-                // If client was moved from a professional and dropped on waiting list, set status to 'waiting'
-                if (droppedOn.id === 'clientes-espera' && clientMovedFromProfessional) {
-                    clients[clientIndex].status = 'waiting';
-                } else if (targetQueueType === 'current') {
-                    clients[clientIndex].status = 'in-service';
-                } else if (targetQueueType === 'queue') {
-                    clients[clientIndex].status = 'waiting-professional';
+            if (droppedOn.id === 'clientes-espera') {
+                if (!clients.some(c => c.id === clientId)) {
+                    client.status = 'waiting';
+                    clients.push(client);
+                } else {
+                    client.status = 'waiting';
                 }
-            }
-
-
-            if (targetQueueType === 'current') {
-                const professional = professionals.find(p => p.id === targetProfessionalId);
-                if (professional) {
-                    if (professional.currentClient) {
-                        // If the target professional is already serving a client, move that client back to waiting
-                        const currentClientBeingServed = clients.find(c => c.id === professional.currentClient);
-                        if (currentClientBeingServed) {
-                            currentClientBeingServed.status = 'waiting';
-                        }
-                        professional.currentClient = null; // Clear current client
-                    }
-                    professional.currentClient = clientId;
-                    client.status = 'in-service'; // Update client status
-                    showMessageBox(`Cliente "${client.name}" atribuído a "${professional.name}" para atendimento.`);
-                }
-            } else if (targetQueueType === 'queue') {
-                const professional = professionals.find(p => p.id === targetProfessionalId);
-                if (professional) {
-                    // Prevent adding client to queue if already in current client slot or in queue
-                    if (professional.currentClient === clientId || professional.queue.includes(clientId)) {
-                        showMessageBox('O cliente já está sendo atendido ou já está na fila deste profissional.');
-                        renderAll(); // Re-render to revert UI changes from invalid drop
-                        return;
-                    }
-                    professional.queue.push(clientId);
-                    client.status = 'waiting-professional'; // Update client status
-                    showMessageBox(`Cliente "${client.name}" adicionado à fila de "${professional.name}".`);
-                }
-            } else if (droppedOn.id === 'clientes-espera') {
-                // Dropped back into waiting clients area
-                client.status = 'waiting';
                 showMessageBox(`Cliente "${client.name}" movido de volta para "Clientes em Espera".`);
+                console.log(`Cliente ${client.name} movido para clientes em espera.`);
+            } else if (targetQueueType === 'current' && professional) {
+                if (professional.currentClient) {
+                    const currentClientBeingServed = clients.find(c => c.id === professional.currentClient);
+                    if (currentClientBeingServed) {
+                        currentClientBeingServed.status = 'waiting';
+                        clients.push(currentClientBeingServed);
+                        console.log(`Cliente ${currentClientBeingServed.name} movido para clientes em espera (substituído).`);
+                    }
+                    professional.currentClient = null;
+                }
+                professional.currentClient = clientId;
+                client.status = 'in-service';
+                showMessageBox(`Cliente "${client.name}" atribuído a "${professional.name}" para atendimento.`);
+                console.log(`Cliente ${client.name} atribuído ao atendimento atual de ${professional.name}.`);
+            } else if (targetQueueType === 'queue' && professional) {
+                if (professional.currentClient === clientId || professional.queue.includes(clientId)) {
+                    showMessageBox('O cliente já está sendo atendido ou já está na fila deste profissional.');
+                    console.warn('Drop impedido: Cliente já na posição alvo.');
+                    renderAll();
+                    return;
+                }
+                professional.queue.push(clientId);
+                client.status = 'waiting-professional';
+                showMessageBox(`Cliente "${client.name}" adicionado à fila de "${professional.name}".`);
+                console.log(`Cliente ${client.name} adicionado à fila de ${professional.name}.`);
             }
 
             saveData();
-            renderAll(); // Re-render everything to reflect changes
+            renderAll();
         }
 
         /**
-         * Renders all dynamic content on the page.
+         * Renderiza todo o conteúdo dinâmico da página (clientes em espera e profissionais),
+         * garantindo que os status sejam atualizados.
          */
         function renderAll() {
+            console.log('Iniciando renderização completa da UI.');
             renderWaitingClients();
             renderProfessionals();
-            // Update all professional statuses after any client movement
             professionals.forEach(p => updateProfessionalStatus(p.id));
+            console.log('Renderização completa da UI finalizada.');
         }
 
-        // --- Event Listeners ---
+        // --- Listeners de Eventos ---
 
-        // Client Form Submission
+        // Listener para o envio do formulário de registro de cliente.
         clientForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const clientName = document.getElementById('nome-cliente').value.trim();
             const clientProcedure = document.getElementById('procedimento-cliente').value.trim();
+            const professionalType = document.getElementById('tipo-profissional-cliente').value;
+            console.log('Formulário de cliente submetido. Nome:', clientName, 'Procedimento:', clientProcedure, 'Tipo Profissional:', professionalType);
 
-            if (clientName && clientProcedure) {
-                addClient(clientName, clientProcedure);
+            if (clientName && clientProcedure && professionalType) {
+                addClient(clientName, clientProcedure, professionalType);
                 clientForm.reset();
             } else {
                 showMessageBox('Por favor, preencha todos os campos do cliente.');
+                console.warn('Campos do formulário de cliente incompletos.');
             }
         });
 
-        // Professional Form Submission
+        // Listener para o envio do formulário de registro de profissional.
         professionalForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const professionalName = document.getElementById('nome-profissional').value.trim();
             const professionalFunction = document.getElementById('funcao-profissional').value;
+            console.log('Formulário de profissional submetido. Nome:', professionalName, 'Função:', professionalFunction);
 
             if (professionalName && professionalFunction) {
                 addProfessional(professionalName, professionalFunction);
                 professionalForm.reset();
             } else {
                 showMessageBox('Por favor, preencha todos os campos do profissional.');
+                console.warn('Campos do formulário de profissional incompletos.');
             }
         });
 
-        // Drop target event listeners for the main waiting area
+        // Listeners de drag-and-drop para o contêiner de clientes em espera.
         waitingClientsContainer.addEventListener('dragover', handleDragOver);
         waitingClientsContainer.addEventListener('dragleave', handleDragLeave);
         waitingClientsContainer.addEventListener('drop', handleDrop);
 
-        // Assign Next Client Button
+        // Listener para o botão de atribuição automática do próximo cliente.
         assignNextClientBtn.addEventListener('click', assignNextWaitingClient);
 
-        // Message Box OK button
+        // Listener para o botão "OK" da caixa de mensagem modal.
         messageOkButton.addEventListener('click', hideMessageBox);
 
-        // Mobile Menu Toggle
+        // Listeners para abrir e fechar o menu lateral em dispositivos móveis.
         menuToggle.addEventListener('click', () => {
             mobileSidebar.classList.toggle('aberto');
+            console.log('Menu móvel alternado.');
         });
 
-        // Close Mobile Menu
         closeMenu.addEventListener('click', () => {
             mobileSidebar.classList.remove('aberto');
+            console.log('Menu móvel fechado.');
         });
 
-        // Close mobile menu if clicked outside (optional, but good UX)
+        // Listener para fechar o menu móvel se o clique ocorrer fora dele.
         document.addEventListener('click', (e) => {
             if (!mobileSidebar.contains(e.target) && !menuToggle.contains(e.target) && mobileSidebar.classList.contains('aberto')) {
                 mobileSidebar.classList.remove('aberto');
+                console.log('Menu móvel fechado por clique externo.');
             }
         });
 
+        // Listeners para o modal de edição de cliente
+        editClientForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Previne o envio padrão do formulário
+            saveEditedClient();
+        });
 
-        // Initial load and render
+        cancelEditButton.addEventListener('click', () => {
+            hideEditClientModal();
+        });
+
+
+        // Carrega os dados e renderiza a interface inicial quando o DOM estiver pronto.
         document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM completamente carregado. Carregando dados e renderizando UI inicial.');
             loadData();
             renderAll();
         });
     </script>
 </body>
-</html> 
+</html>
