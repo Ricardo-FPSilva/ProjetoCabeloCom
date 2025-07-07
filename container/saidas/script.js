@@ -50,8 +50,8 @@ function atualizarHistorico() {
 }
 
 function alternarExibicao() {
-  if (saidas.length <= 3) {
-    return; // Impede a expansão se não houver mais de 3 saídas
+  if (saidas.length <= 2) {
+    return; 
   }
 
   if (mostrarTudo) {

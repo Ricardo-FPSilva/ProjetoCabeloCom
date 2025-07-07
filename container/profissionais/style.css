@@ -1,106 +1,736 @@
-.lista-profissionais {
-  max-width: 800px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+/* Importar fontes do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+/* Nova Paleta de Cores: Riqueza Acolhedora com Toque de Vinho/Borgonha */
+:root {
+    --cor-1: #2C1E2B; /* Marrom Muito Escuro / Quase Preto com Subtom Vinho */
+    --cor-2: #4A2C3E; /* Marrom Escuro Avermelhado */
+    --cor-3: #D3C6C0; /* Rosa Empoeirado Quente */
+    --cor-4: #8B2E4F; /* Vinho Profundo / Borgonha (Destaque) */
+    --cor-5: #EFE7E3; /* Bege Rosado Suave */
+    --cor-6: #FDF8F5; /* Branco Creme Quente */
+
+    --cor-texto-claro: #FFFFFF; /* Branco Puro */
+
+    /* Mapeamento das variáveis para as novas cores numeradas */
+    --cor-fundo-geral: var(--cor-1); /* AGORA O FUNDO GERAL É ESCURO */
+    --cor-primaria-clara: var(--cor-5);
+    --cor-primaria-media: var(--cor-3);
+    --cor-primaria-escura: var(--cor-1); /* Mantido para elementos escuros */
+    --cor-destaque: var(--cor-4);
+    --cor-borda-elemento: var(--cor-3);
+    --cor-secundaria-clara: var(--cor-5); /* Usado para divisores sutis */
 }
 
-.card {
-  background-color: white;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  position: relative;
-  cursor: pointer;
+/* Estilos gerais do modelo */
+.area-conteudo-principal {
+    flex-grow: 1;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+    .area-conteudo-principal {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.coluna-registro {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+    .coluna-registro {
+        grid-column: span 1 / span 1;
+    }
+}
+
+.coluna-lista {
+    background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+    display: flex;
+    flex-direction: column;
+}
+
+.cartao-registro {
+    background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+}
+
+.titulo-secao {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    color: var(--cor-2); /* Marrom Escuro Avermelhado (escuro para contraste no fundo claro) */
+    border-bottom: 2px solid var(--cor-5); /* Bege Rosado Suave */
+    padding-bottom: 0.5rem;
+}
+
+.texto-centralizado {
+    text-align: center;
+}
+
+.formulario-registro {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.campo-entrada {
+    margin-top: 0.25rem;
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+    border-radius: 0.5rem;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    font-family: 'Inter', sans-serif;
+    color: var(--cor-1); /* Cor do texto dentro do input */
+}
+
+.campo-entrada:focus {
+    outline: none;
+    border-color: var(--cor-4); /* Vinho Profundo */
+    box-shadow: 0 0 0 3px rgba(139, 46, 79, 0.5);
+}
+
+.botao-acao {
+    width: 100%;
+    background-color: var(--cor-4); /* Vinho Profundo */
+    color: var(--cor-texto-claro); /* Branco Puro */
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.1rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.botao-acao:hover {
+    background-color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    transform: translateY(-2px);
+}
+
+.icone-botao {
+    margin-right: 0.75rem;
+}
+
+.lista-clientes-espera {
+    flex-grow: 1;
+    padding: 1rem;
+    background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
+    border-radius: 0.5rem;
+    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-height: 150px;
+}
+
+.mensagem-lista-vazia {
+    text-align: center;
+    color: var(--cor-2); /* Marrom Escuro Avermelhado (escuro para contraste no fundo claro) */
+    font-style: italic;
+    padding: 1rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.grade-profissionais {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .grade-profissionais {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.botao-atribuir-proximo {
+    width: 100%;
+    background-color: var(--cor-4); /* Vinho Profundo */
+    color: var(--cor-texto-claro); /* Branco Puro */
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    margin-bottom: 1rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.1rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.botao-atribuir-proximo:hover {
+    background-color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    transform: translateY(-2px);
+}
+
+/* Cartão do Cliente */
+.cartao-cliente {
+    background-color: var(--cor-3); /* Rosa Empoeirado Quente (claro para contraste) */
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--cor-2); /* Marrom Escuro Avermelhado */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--cor-2); /* Marrom Escuro Avermelhado (escuro para contraste no fundo claro) */
+    font-family: 'Inter', sans-serif;
+}
+
+.nome-cliente {
+    font-weight: 600;
+    color: var(--cor-1); /* Marrom Muito Escuro */
+}
+
+.procedimento-cliente {
+    color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    font-size: 0.8rem;
+}
+
+.acoes-cliente {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.botao-atribuir-cliente {
+    background-color: var(--cor-4); /* Vinho Profundo */
+    color: var(--cor-texto-claro); /* Branco Puro */
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.4rem;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 0.8rem;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
+
+.botao-atribuir-cliente:hover {
+    background-color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    transform: translateY(-1px);
+}
+
+.botao-editar-cliente { /* NOVO ESTILO PARA BOTÃO DE EDITAR */
+    background-color: var(--cor-3); /* Rosa Empoeirado Quente */
+    color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.4rem;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 0.8rem;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
+
+.botao-editar-cliente:hover {
+    background-color: var(--cor-5); /* Bege Rosado Suave */
+    transform: translateY(-1px);
+}
+
+.botao-remover-cliente {
+    color: #EF4444; /* Vermelho */
+    transition: color 0.2s ease-in-out;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.botao-remover-cliente:hover {
+    color: #DC2626; /* Vermelho mais escuro */
+}
+
+/* Cartão do Profissional */
+.cartao-profissional {
+    background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.cabecalho-profissional {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nome-profissional {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--cor-1); /* Marrom Muito Escuro */
+}
+
+.botao-remover-profissional {
+    color: #EF4444; /* Vermelho */
+    transition: color 0.2s ease-in-out;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.botao-remover-profissional:hover {
+    color: #DC2626; /* Vermelho mais escuro */
+}
+
+.funcao-profissional {
+    color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    font-size: 0.9rem;
+}
+
+.status-e-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.emblema-status {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.3rem 0.6rem;
+    border-radius: 9999px;
+    text-transform: uppercase;
+}
+
+/* Cores de status */
+.status-livre {
+    background-color: #D1FAE5; /* Verde claro */
+    color: #065F46; /* Verde escuro */
+}
+
+.status-parcial {
+    background-color: #FEF3C7; /* Amarelo claro */
+    color: #92400E; /* Marrom escuro */
+}
+
+.status-ocupado {
+    background-color: #FEE2E2; /* Vermelho claro */
+    color: #991B1B; /* Vermelho escuro */
+}
+
+.status-pausa { /* Novo estilo para status "Em Pausa" */
+    background-color: var(--cor-3); /* Rosa Empoeirado Quente */
+    color: var(--cor-2); /* Marrom Escuro Avermelhado */
+}
+
+.botao-alternar-pausa {
+    background-color: var(--cor-5); /* Bege Rosado Suave */
+    color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.4rem;
+    border: 1px solid var(--cor-3);
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.botao-alternar-pausa:hover {
+    background-color: var(--cor-3); /* Rosa Empoeirado Quente */
+    transform: translateY(-1px);
+}
+
+.area-cliente-atual {
+    background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: var(--cor-2); /* Marrom Escuro Avermelhado (escuro para contraste no fundo claro) */
+    font-style: italic;
+    gap: 0.5rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.cliente-em-atendimento { /* Novo estilo para o cliente atualmente em atendimento */
+    width: 100%; /* Ocupa a largura total da área */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    box-sizing: border-box; /* Inclui padding na largura */
+}
+
+.texto-soltar {
+    color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+.botao-finalizar-servico {
+    margin-top: 0.5rem;
+    background-color: var(--cor-4); /* Vinho Profundo */
+    color: var(--cor-texto-claro); /* Branco Puro */
+    padding: 0.4rem 0.9rem;
+    border-radius: 0.4rem;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 0.85rem;
+    border: none;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+}
+
+.botao-finalizar-servico:hover {
+    background-color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    transform: translateY(-1px);
+}
+
+.area-fila-espera {
+    background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 80px;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Estilos Drag and Drop */
+.arrastavel {
+    cursor: grab;
+}
+
+.arrastando {
+    opacity: 0.6;
+    border: 2px dashed var(--cor-4); /* Vinho Profundo */
+    transform: scale(1.02);
+}
+
+.zona-soltar-item {
+    border: 2px dashed transparent;
+    min-height: 50px;
+    transition: all 0.2s ease-in-out;
+}
+
+.zona-soltar-item.zona-arrasto-ativa {
+    border: 2px dashed var(--cor-4); /* Vinho Profundo */
+    background-color: rgba(139, 46, 79, 0.2); /* Destaque com opacidade */
+    box-shadow: inset 0 0 10px rgba(139, 46, 79, 0.3);
+}
+
+/* Scrollbar personalizado para filas de profissionais */
+.fila-profissional {
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.fila-profissional::-webkit-scrollbar {
+    width: 8px;
+}
+
+.fila-profissional::-webkit-scrollbar-track {
+    background: var(--cor-5); /* Bege Rosado Suave */
+    border-radius: 10px;
+}
+
+.fila-profissional::-webkit-scrollbar-thumb {
+    background: var(--cor-3); /* Rosa Empoeirado Quente */
+    border-radius: 10px;
+}
+
+.fila-profissional::-webkit-scrollbar-thumb:hover {
+    background: var(--cor-2); /* Marrom Escuro Avermelhado */
+}
+
+/* Caixa de Mensagem (Modal) - Reutilizada para o modal de edição */
+.caixa-mensagem {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+}
+
+.caixa-mensagem.oculto {
+    display: none;
+}
+
+.conteudo-caixa-mensagem {
+    background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2), 0 10px 20px rgba(0, 0, 0, 0.08);
+    max-width: 28rem;
+    width: 100%;
+    text-align: center;
+    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+}
+
+.texto-mensagem {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--cor-2); /* Marrom Escuro Avermelhado (escuro para contraste no fundo claro) */
+    font-family: 'Inter', sans-serif;
+}
+
+.botao-confirmacao-mensagem {
+    background-color: var(--cor-4); /* Vinho Profundo */
+    color: var(--cor-texto-claro); /* Branco Puro */
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+}
+
+.botao-confirmacao-mensagem:hover {
+    background-color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    transform: translateY(-2px);
+}
+
+/* Estilos para botões dentro de modais (específico para o modal de edição) */
+.botoes-modal {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.botao-cancelar { /* Estilo para o botão de cancelar no modal */
+    background-color: var(--cor-3); /* Rosa Empoeirado Quente */
+    color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.1rem;
+    font-family: 'Inter', sans-serif;
+}
+
+.botao-cancelar:hover {
+    background-color: var(--cor-5); /* Bege Rosado Suave */
+    transform: translateY(-2px);
+}
+
+
+.lista-profissionais {
+    max-width: 800px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Usando rem para padronizar com o modelo */
+    font-family: 'Inter', sans-serif; /* Aplicando a fonte Inter */
+}
+
+/* O antigo .card se torna .cartao-profissional (já existe no modelo) ou um novo card mais genérico */
+/* Vamos usar o .cartao-profissional do modelo para manter a consistência */
+/* Se precisar de um card mais genérico para outras listagens, você pode criar uma nova classe como .cartao-generico */
+.card { /* Mantido para compatibilidade, mas idealmente renomear para .cartao-profissional */
+    background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
+    border-radius: 0.75rem; /* Ajustado para o padrão do modelo */
+    padding: 1.25rem; /* Ajustado para o padrão do modelo */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra do modelo */
+    border: 1px solid var(--cor-3); /* Borda do modelo */
+    position: relative;
+    cursor: pointer;
+    display: flex; /* Para flex-direction column abaixo */
+    flex-direction: column;
+    gap: 0.75rem; /* Espaçamento interno padronizado */
+    font-family: 'Inter', sans-serif;
 }
 
 .card h2 {
-  margin-top: 0;
-  font-size: 1.2em;
+    margin-top: 0;
+    font-size: 1.3rem; /* Tamanho de fonte do nome-profissional */
+    font-weight: 700; /* Peso da fonte do nome-profissional */
+    color: var(--cor-1); /* Cor do nome-profissional */
 }
 
 .card .detalhes {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.4s ease, opacity 0.3s ease;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    color: var(--cor-2); /* Cor de texto para detalhes */
+    font-size: 0.9rem; /* Tamanho da fonte para detalhes */
 }
 
 .card.aberto .detalhes {
-  max-height: 500px;
-  opacity: 1;
+    max-height: 500px; /* Um valor alto o suficiente para caber o conteúdo */
+    opacity: 1;
 }
 
 .info {
-  margin-bottom: 8px;
+    margin-bottom: 0.5rem; /* Espaçamento padronizado */
+    font-family: 'Inter', sans-serif;
 }
 
 .status {
-  font-weight: bold;
-  color: green;
+    font-weight: 600; /* Peso da fonte do emblema-status */
+    font-size: 0.8rem; /* Tamanho da fonte do emblema-status */
+    padding: 0.3rem 0.6rem; /* Padding do emblema-status */
+    border-radius: 9999px; /* Borda arredondada do emblema-status */
+    text-transform: uppercase; /* Emblema-status é uppercase */
+    font-family: 'Inter', sans-serif;
 }
 
+/* Cores de status existentes no modelo */
+.status.status-livre { /* Renomeado para usar a nomenclatura do modelo */
+    background-color: #D1FAE5; /* Verde claro */
+    color: #065F46; /* Verde escuro */
+}
+
+.status.status-parcial { /* Renomeado para usar a nomenclatura do modelo */
+    background-color: #FEF3C7; /* Amarelo claro */
+    color: #92400E; /* Marrom escuro */
+}
+
+.status.status-ocupado { /* Renomeado para usar a nomenclatura do modelo */
+    background-color: #FEE2E2; /* Vermelho claro */
+    color: #991B1B; /* Vermelho escuro */
+}
+
+/* Novo status "Em Pausa" do modelo */
+.status.status-pausa {
+    background-color: var(--cor-3); /* Rosa Empoeirado Quente */
+    color: var(--cor-2); /* Marrom Escuro Avermelhado */
+}
+
+/* Ajuste nos seletores para usar os estados do modelo */
 .status.disponivel {
-  color: orange;
+    background-color: #D1FAE5; /* Verde claro */
+    color: #065F46; /* Verde escuro */
 }
 
 .status.indisponivel {
-  color: red;
+    background-color: #FEE2E2; /* Vermelho claro */
+    color: #991B1B; /* Vermelho escuro */
 }
 
 .botoes {
-  margin-top: 10px;
+    margin-top: 1rem; /* Ajustado para padrão do modelo */
+    display: flex;
+    gap: 0.75rem; /* Espaçamento entre botões */
+    flex-wrap: wrap; /* Para garantir que os botões se ajustem em telas menores */
 }
 
 .botoes button {
-  margin-right: 10px;
-  padding: 6px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+    padding: 0.75rem 1.5rem; /* Padding do botao-acao */
+    border: none;
+    border-radius: 0.5rem; /* Raio da borda do botao-acao */
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1.1rem;
+    font-family: 'Inter', sans-serif;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.editar {
-  background-color: #ffc107;
-  color: black;
+.editar { /* Usando o estilo de botao-editar-cliente como base */
+    background-color: var(--cor-3); /* Rosa Empoeirado Quente */
+    color: var(--cor-2); /* Marrom Escuro Avermelhado */
 }
 
-.registrar {
-  background-color: #28a745;
-  color: white;
+.editar:hover {
+    background-color: var(--cor-5); /* Bege Rosado Suave */
+    transform: translateY(-2px);
+}
+
+.registrar { /* Usando o estilo de botao-acao como base */
+    background-color: var(--cor-4); /* Vinho Profundo */
+    color: var(--cor-texto-claro); /* Branco Puro */
+}
+
+.registrar:hover {
+    background-color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    transform: translateY(-2px);
 }
 
 .novo-profissional {
-  text-align: center;
-  margin-top: 30px;
+    text-align: center;
+    margin-top: 3rem; /* Espaçamento maior para seções */
+    font-family: 'Inter', sans-serif;
 }
 
 .novo-profissional button {
-  padding: 12px 25px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+    padding: 0.75rem 1.5rem; /* Padding do botao-acao */
+    font-size: 1.1rem; /* Tamanho da fonte do botao-acao */
+    background-color: var(--cor-4); /* Vinho Profundo */
+    color: var(--cor-texto-claro); /* Branco Puro */
+    border: none;
+    border-radius: 0.5rem; /* Raio da borda do botao-acao */
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .novo-profissional button:hover {
-  background-color: #0056b3;
+    background-color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    transform: translateY(-2px);
 }
 
 input[type="number"] {
-  padding: 4px;
-  width: 100px;
-  margin-left: 5px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+    padding: 0.75rem; /* Padding do campo-entrada */
+    width: 100px; /* Largura fixa */
+    margin-left: 0.5rem; /* Espaçamento padronizado */
+    border-radius: 0.5rem; /* Raio da borda do campo-entrada */
+    border: 1px solid var(--cor-3); /* Borda do campo-entrada */
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05); /* Sombra interna */
+    font-family: 'Inter', sans-serif;
+    color: var(--cor-1); /* Cor do texto */
+}
+
+input[type="number"]:focus {
+    outline: none;
+    border-color: var(--cor-4); /* Vinho Profundo */
+    box-shadow: 0 0 0 3px rgba(139, 46, 79, 0.5);
 }
 
 .mensagem-vazia {
-  text-align: center;
-  color: #777;
-  font-style: italic;
-  margin-top: 40px;
+    text-align: center;
+    color: var(--cor-2); /* Cor de texto do modelo */
+    font-style: italic;
+    margin-top: 2.5rem; /* Espaçamento padronizado */
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
 }

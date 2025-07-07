@@ -1,9 +1,39 @@
+/* Importar fontes do Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+/* Nova Paleta de Cores: Riqueza Acolhedora com Toque de Vinho/Borgonha */
 :root {
-  --cor-card: #ffffff;
-  --cor-botao: #28a745;
-  --cor-botao-hover: #218838;
-  --cor-texto: #333;
-  --cor-borda: #ddd;
+  --cor-1: #2c1e2b; /* Marrom Muito Escuro / Quase Preto com Subtom Vinho */
+  --cor-2: #4a2c3e; /* Marrom Escuro Avermelhado */
+  --cor-3: #d3c6c0; /* Rosa Empoeirado Quente */
+  --cor-4: #8b2e4f; /* Vinho Profundo / Borgonha (Destaque) */
+  --cor-5: #efe7e3; /* Bege Rosado Suave */
+  --cor-6: #fdf8f5; /* Branco Creme Quente */
+
+  --cor-texto-claro: #ffffff; /* Branco Puro */
+
+  /* Mapeamento das variáveis para as novas cores numeradas */
+  --cor-fundo-geral: var(--cor-1); /* AGORA O FUNDO GERAL É ESCURO */
+  --cor-primaria-clara: var(--cor-5);
+  --cor-primaria-media: var(--cor-3);
+  --cor-primaria-escura: var(--cor-1); /* Mantido para elementos escuros */
+  --cor-destaque: var(--cor-4);
+  --cor-borda-elemento: var(--cor-3);
+  --cor-secundaria-clara: var(--cor-5); /* Usado para divisores sutis */
+
+  /* Variáveis para este conjunto de estilos */
+  --cor-card: var(
+    --cor-primaria-clara
+  ); /* Usar bege rosado suave para o fundo do cartão */
+  --cor-botao: var(--cor-destaque); /* Usar vinho profundo para botões */
+  --cor-botao-hover: var(
+    --cor-2
+  ); /* Marrom escuro avermelhado para hover do botão */
+  --cor-texto-padrao: var(
+    --cor-2
+  ); /* Marrom escuro avermelhado para texto principal */
+  --cor-borda-padrao: var(--cor-3); /* Rosa empoeirado quente para bordas */
 }
 
 * {
@@ -12,113 +42,113 @@
 
 body {
   font-family: "Inter", sans-serif;
-  background-color: var(--cor-fundo);
+  background-color: var(--cor-fundo-geral); /* Usar a variável do modelo */
   margin: 0;
-  padding: 16px;
-  color: var(--cor-texto);
+  padding: 1.5rem; /* Padronizado para 1.5rem (24px) */
+  color: var(--cor-texto-claro); /* Texto principal claro no fundo escuro */
   display: flex;
-  /* Added for centering content */
   justify-content: center;
-  /* Added for centering content */
   align-items: flex-start;
-  /* Aligns to the top initially */
   min-height: 100vh;
-  /* Ensures body takes full viewport height */
   transition: align-items 0.3s ease-out;
-  /* Smooth transition for alignment */
 }
 
 .container {
-  max-width: 600px;
+  max-width: 38rem; /* Padronizado para 38rem (608px, próximo de 600px) */
   width: 100%;
-  /* Ensures container takes full width up to max-width */
   margin: 0 auto;
 }
 
 .formulario,
 .historico {
-  background-color: var(--cor-card);
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  margin-bottom: 24px;
+  background-color: var(--cor-card); /* Usar cor do cartão padronizada */
+  padding: 1.5rem; /* Padronizado para 1.5rem (24px) */
+  border-radius: 0.75rem; /* Padronizado para 0.75rem (12px) */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra mais consistente com o modelo */
+  margin-bottom: 1.5rem; /* Padronizado para 1.5rem (24px) */
+  border: 1px solid var(--cor-borda-padrao); /* Borda consistente com o modelo */
   transition: all 0.3s ease-out;
-  /* Smooth transition for general card changes */
 }
 
 label {
   font-weight: 600;
-  margin-top: 12px;
+  margin-top: 0.75rem; /* Padronizado para 0.75rem (12px) */
   display: block;
+  color: var(--cor-texto-padrao); /* Cor do texto padrão para labels */
 }
 
 input,
 textarea {
   width: 100%;
-  padding: 10px;
-  margin-top: 6px;
-  border-radius: 8px;
-  border: 1px solid var(--cor-borda);
-  font-size: 16px;
+  padding: 0.75rem; /* Padronizado para 0.75rem (12px) */
+  margin-top: 0.375rem; /* Padronizado para 0.375rem (6px) */
+  border-radius: 0.5rem; /* Padronizado para 0.5rem (8px) */
+  border: 1px solid var(--cor-borda-padrao); /* Borda consistente */
+  font-size: 1rem; /* Padronizado para 1rem (16px) */
+  font-family: "Inter", sans-serif; /* Consistência da fonte */
+  color: var(--cor-1); /* Cor do texto dentro do input */
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--cor-4); /* Vinho Profundo */
+  box-shadow: 0 0 0 3px rgba(139, 46, 79, 0.5); /* Sombra de foco consistente */
 }
 
 button {
-  margin-top: 20px;
+  margin-top: 1.25rem; /* Padronizado para 1.25rem (20px) */
   width: 100%;
-  padding: 12px;
-  background-color: var(--cor-botao);
-  color: white;
+  padding: 0.75rem 1.5rem; /* Padronizado para 0.75rem 1.5rem */
+  background-color: var(--cor-botao); /* Usar cor do botão padronizada */
+  color: var(--cor-texto-claro); /* Cor do texto claro */
   border: none;
-  border-radius: 8px;
-  font-size: 18px;
-  font-weight: bold;
+  border-radius: 0.5rem; /* Padronizado para 0.5rem (8px) */
+  font-size: 1.125rem; /* Padronizado para 1.125rem (18px) */
+  font-weight: 600; /* Padronizado para 600 */
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease; /* Transições consistentes */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra consistente */
+  font-family: "Inter", sans-serif; /* Consistência da fonte */
 }
 
 button:hover {
-  background-color: var(--cor-botao-hover);
+  background-color: var(
+    --cor-botao-hover
+  ); /* Usar cor de hover do botão padronizada */
+  transform: translateY(-2px); /* Efeito de elevação consistente */
 }
 
 .historico h2 {
   margin-top: 0;
-  font-size: 20px;
-  margin-bottom: 16px;
+  font-size: 1.25rem; /* Padronizado para 1.25rem (20px) */
+  margin-bottom: 1rem; /* Padronizado para 1rem (16px) */
+  color: var(--cor-texto-padrao); /* Cor do texto padrão para títulos */
 }
 
 #lista-saidas {
   display: flex;
   flex-direction: column-reverse;
-  /* Inverte a ordem dos itens */
-  max-height: 150px;
+  max-height: 9.375rem; /* Padronizado para 9.375rem (150px) */
   overflow: hidden;
   transition: max-height 0.3s ease-out;
 }
 
 .historico.expandido #lista-saidas {
-  max-height: 500px;
+  max-height: 31.25rem; /* Padronizado para 31.25rem (500px) */
   overflow-y: auto;
-}
-
-.historico.expandido #lista-saidas {
-  max-height: 500px;
-  /* Larger max-height when expanded (adjust as needed) */
-  overflow-y: auto;
-  /* Enable scroll if content exceeds max-height */
-}
-
-.historico #lista-saidas {
-  transition: max-height 0.3s ease-out;
 }
 
 .historico.colapsando #lista-saidas {
-  max-height: 150px;
+  max-height: 9.375rem;
   overflow: hidden;
 }
 
 .saida {
-  border-bottom: 1px solid var(--cor-borda);
-  padding: 10px 0;
+  border-bottom: 1px solid var(--cor-borda-padrao); /* Borda consistente */
+  padding: 0.625rem 0; /* Padronizado para 0.625rem (10px) */
+  font-family: "Inter", sans-serif; /* Consistência da fonte */
+  color: var(--cor-texto-padrao); /* Cor do texto padrão para itens da lista */
 }
 
 .saida:last-child {
@@ -126,56 +156,53 @@ button:hover {
 }
 
 .saida strong {
-  color: #000;
+  color: var(--cor-1); /* Cor mais escura para destaque (Marrom Muito Escuro) */
+  font-weight: 600; /* Consistência de peso da fonte */
 }
 
 .saida em {
-  color: #666;
-  font-size: 14px;
+  color: var(--cor-2); /* Marrom Escuro Avermelhado para texto secundário */
+  font-size: 0.875rem; /* Padronizado para 0.875rem (14px) */
 }
 
 .total {
   text-align: right;
-  font-weight: bold;
-  margin-top: 16px;
-  font-size: 18px;
+  font-weight: 700; /* Font-weight mais alto para o total */
+  margin-top: 1rem; /* Padronizado para 1rem (16px) */
+  font-size: 1.125rem; /* Padronizado para 1.125rem (18px) */
+  color: var(--cor-1); /* Marrom Muito Escuro para o total */
 }
 
 /* Styles for centering the history card when expanded */
 .historico.expandido {
   position: fixed;
-  /* Fix its position */
   top: 50%;
-  /* Start at 50% from the top */
   left: 50%;
-  /* Start at 50% from the left */
   transform: translate(-50%, -50%);
-  /* Center it precisely */
-  width: min(calc(100% - 32px), 600px);
-  /* Adjust width to match container, accounting for padding */
+  width: min(
+    calc(100% - 3rem),
+    38rem
+  ); /* 3rem para 2*1.5rem padding, 38rem para max-width */
   z-index: 1000;
-  /* Ensure it's above other content */
   margin-bottom: 0;
-  /* Remove bottom margin when fixed */
 }
 
 @media (max-width: 480px) {
   body {
-    padding: 12px;
+    padding: 0.75rem; /* Padronizado para 0.75rem (12px) */
   }
 
   button {
-    font-size: 16px;
+    font-size: 1rem; /* Padronizado para 1rem (16px) */
   }
 
   input,
   textarea {
-    font-size: 15px;
+    font-size: 0.9375rem; /* Padronizado para 0.9375rem (15px) */
   }
 
   .historico.expandido {
-    width: calc(100% - 24px);
-    /* Adjust width for smaller screens */
+    width: calc(100% - 1.5rem); /* Padronizado para 1.5rem (24px) */
   }
 }
 
@@ -185,5 +212,24 @@ button:hover {
 }
 
 .historico.clicavel:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12); /* Sombra de hover ligeiramente mais pronunciada */
+}
+
+/* Scrollbar personalizado para lista-saidas (se a lista for rolada) */
+#lista-saidas::-webkit-scrollbar {
+  width: 8px;
+}
+
+#lista-saidas::-webkit-scrollbar-track {
+  background: var(--cor-5); /* Bege Rosado Suave */
+  border-radius: 10px;
+}
+
+#lista-saidas::-webkit-scrollbar-thumb {
+  background: var(--cor-3); /* Rosa Empoeirado Quente */
+  border-radius: 10px;
+}
+
+#lista-saidas::-webkit-scrollbar-thumb:hover {
+  background: var(--cor-2); /* Marrom Escuro Avermelhado */
 }
