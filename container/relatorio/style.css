@@ -1,0 +1,224 @@
+/* Paleta de Cores: Riqueza Acolhedora com Toque de Vinho/Borgonha (Consistente com o sistema de atendimento) */
+        :root {
+            --cor-1: #2C1E2B; /* Marrom Muito Escuro / Quase Preto com Subtom Vinho */
+            --cor-2: #4A2C3E; /* Marrom Escuro Avermelhado */
+            --cor-3: #D3C6C0; /* Rosa Empoeirado Quente */
+            --cor-4: #8B2E4F; /* Vinho Profundo / Borgonha (Destaque) */
+            --cor-5: #EFE7E3; /* Bege Rosado Suave */
+            --cor-6: #FDF8F5; /* Branco Creme Quente */
+
+            --cor-texto-claro: #FFFFFF; /* Branco Puro */
+
+            /* Mapeamento das variáveis para as novas cores numeradas (com sufixo -app para clareza) */
+            --cor-fundo-geral-app: var(--cor-1);
+            --cor-primaria-clara-app: var(--cor-5);
+            --cor-primaria-media-app: var(--cor-3);
+            --cor-primaria-escura-app: var(--cor-1);
+            --cor-destaque-app: var(--cor-4);
+            --cor-borda-elemento-app: var(--cor-3);
+            --cor-texto-escuro-app: var(--cor-2);
+            --cor-texto-claro-app: var(--cor-texto-claro);
+        } 
+        button {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            background-color: var(--cor-botao); 
+            color: var(--cor-texto-claro);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            font-weight: 600;
+        }
+
+        button:hover {
+            background-color: var(--cor-botao-hover); /* Marrom Escuro Avermelhado para o hover */
+            transform: translateY(-2px);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--cor-fundo-geral-app); /* Fundo escuro do sistema */
+            color: var(--cor-texto-claro-app); /* Texto claro no fundo escuro */
+            padding: 30px;
+            line-height: 1.6;
+        }
+
+        .titulo-principal {
+            font-family: 'Playfair Display', serif; /* Nova fonte para o título principal */
+            font-size: 3.5rem;
+            font-weight: 700; /* Ajustado para um peso mais forte com Playfair Display */
+            text-align: center;
+            color: var(--cor-primaria-clara-app); /* Cor da fonte do título principal alterada para branco */
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            text-align: center;
+            color: var(--cor-destaque-app); /* Vinho Profundo para subtítulos */
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--cor-primaria-media-app); /* Rosa Empoeirado Quente para a linha */
+            padding-bottom: 10px;
+        }
+
+        .relatorio {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--cor-primaria-clara-app); /* Bege Rosado Suave para o fundo do relatório */
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border: 1px solid var(--cor-borda-elemento-app); /* Rosa Empoeirado Quente para a borda */
+        }
+
+        .resumo {
+            background-color: var(--cor-primaria-media-app); /* Rosa Empoeirado Quente para o resumo */
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid var(--cor-borda-elemento-app); /* Rosa Empoeirado Quente para a borda */
+        }
+
+        .resumo p {
+            margin: 8px 0;
+            font-size: 1.1rem;
+            color: var(--cor-texto-escuro-app); /* Marrom Escuro Avermelhado para o texto */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 5px;
+            border-bottom: 1px dashed var(--cor-primaria-media-app); /* Rosa Empoeirado Quente para a linha tracejada */
+        }
+
+        .resumo p:last-child {
+            border-bottom: none;
+        }
+
+        .resumo strong {
+            color: var(--cor-primaria-escura-app); /* Marrom Muito Escuro para o texto forte */
+        }
+
+        .resumo span {
+            font-weight: bold;
+            color: var(--cor-destaque-app); /* Vinho Profundo para os valores */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background-color: var(--cor-primaria-clara-app); /* Bege Rosado Suave para o fundo da tabela */
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table, th, td {
+            border: 1px solid var(--cor-primaria-media-app); /* Rosa Empoeirado Quente para as bordas da tabela */
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            color: var(--cor-texto-escuro-app); /* Marrom Escuro Avermelhado para o texto da tabela */
+        }
+
+        th {
+            background-color: var(--cor-primaria-escura-app); /* Marrom Muito Escuro para o cabeçalho da tabela */
+            color: var(--cor-texto-claro-app); /* Branco para o texto do cabeçalho */
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.95rem;
+        }
+
+        tr:nth-child(even) {
+            background-color: var(--cor-primaria-media-app); /* Rosa Empoeirado Quente para linhas alternadas */
+        }
+
+        .saida-lista {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+            background-color: var(--cor-primaria-media-app); /* Rosa Empoeirado Quente para a lista de saídas */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid var(--cor-borda-elemento-app); /* Rosa Empoeirado Quente para a borda */
+        }
+
+        .saida-lista li {
+            margin: 8px 0;
+            font-size: 1.05rem;
+            color: var(--cor-texto-escuro-app); /* Marrom Escuro Avermelhado para o texto da lista */
+            border-bottom: 1px dashed var(--cor-primaria-media-app); /* Rosa Empoeirado Quente para a linha tracejada */
+            padding-bottom: 5px;
+        }
+
+        .saida-lista li:last-child {
+            border-bottom: none;
+        }
+
+        .total-final {
+            text-align: right;
+            font-size: 1.5rem;
+            margin-top: 40px;
+            font-weight: bold;
+            color: var(--cor-primaria-escura-app); /* Marrom Muito Escuro para o texto final */
+            padding-top: 15px;
+            border-top: 2px solid var(--cor-destaque-app); /* Vinho Profundo para a linha superior */
+        }
+
+        .total-final span {
+            color: var(--cor-destaque-app); /* Vinho Profundo para o valor final */
+            font-size: 1.6rem;
+        }
+
+        .botoes {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .botoes button {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            background-color: var(--cor-destaque-app); /* Vinho Profundo para o botão */
+            color: var(--cor-texto-claro-app); /* Branco para o texto do botão */
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            font-weight: 600;
+        }
+
+        .botoes button:hover {
+            background-color: var(--cor-2); /* Marrom Escuro Avermelhado para o hover */
+            transform: translateY(-2px);
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .relatorio {
+                box-shadow: none;
+                border: none;
+                padding: 15px;
+            }
+            .botoes {
+                display: none;
+            }
+            h1, h2, .resumo p, table, th, td, .saida-lista li, .total-final {
+                color: #333; /* Para impressão, garantir texto preto */
+            }
+            .resumo span, .total-final span {
+                color: #333; /* Manter cor original para valores */
+            }
+        }

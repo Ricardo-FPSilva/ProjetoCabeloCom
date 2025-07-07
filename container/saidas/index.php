@@ -8,9 +8,10 @@
     <style>
         :root {
             --cor-card: #ffffff;
-            --cor-botao: #28a745;
-            --cor-botao-hover: #218838;
+            --cor-botao: #8B2E4F;
+            --cor-botao-hover: #4A2C3E;
             --cor-texto: #333;
+            --cor-texto-claro: #FDF8F5; 
             --cor-borda: #ddd;
         }
 
@@ -71,21 +72,25 @@
         }
 
         button {
-            margin-top: 20px;
-            width: 100%;
-            padding: 12px;
-            background-color: var(--cor-botao);
-            color: white;
+            display: block; 
+            margin: 0 auto;
+            width: fit-content;
+            padding: 15px 30px;
+            margin-top: 16px;
+            font-size: 1.1rem;
+            background-color: var(--cor-botao); 
+            color: var(--cor-texto-claro);
             border: none;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
+            border-radius: 10px;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            font-weight: 600;
         }
 
         button:hover {
-            background-color: var(--cor-botao-hover);
+            background-color: var(--cor-botao-hover); /* Marrom Escuro Avermelhado para o hover */
+            transform: translateY(-2px);
         }
 
         .historico h2 {
