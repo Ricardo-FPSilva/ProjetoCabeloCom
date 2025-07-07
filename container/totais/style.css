@@ -26,7 +26,6 @@
 /* Estilos Globais Padronizados */
 body {
   font-family: "Inter", sans-serif;
-  padding: 1.5rem;
   background-color: var(--cor-fundo-geral); /* Fundo geral escuro */
   color: var(--cor-texto-claro); /* Texto principal claro */
 }
