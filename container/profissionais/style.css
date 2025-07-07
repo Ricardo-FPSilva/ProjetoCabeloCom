@@ -77,17 +77,21 @@
 }
 
 .novo-profissional button {
-  padding: 12px 25px;
-  font-size: 16px;
-  background-color: #007bff;
-  color: white;
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  background-color: #8B2E4F;
+  color:#FDF8F5; /* Branco para o texto do botão */
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  font-weight: 600;
 }
 
 .novo-profissional button:hover {
-  background-color: #0056b3;
+  background-color: #4A2C3E; /* Marrom Escuro Avermelhado para o hover */
+  transform: translateY(-2px);
 }
 
 input[type="number"] {
