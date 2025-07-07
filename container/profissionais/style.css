@@ -1,0 +1,106 @@
+.lista-profissionais {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  cursor: pointer;
+}
+
+.card h2 {
+  margin-top: 0;
+  font-size: 1.2em;
+}
+
+.card .detalhes {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+}
+
+.card.aberto .detalhes {
+  max-height: 500px;
+  opacity: 1;
+}
+
+.info {
+  margin-bottom: 8px;
+}
+
+.status {
+  font-weight: bold;
+  color: green;
+}
+
+.status.disponivel {
+  color: orange;
+}
+
+.status.indisponivel {
+  color: red;
+}
+
+.botoes {
+  margin-top: 10px;
+}
+
+.botoes button {
+  margin-right: 10px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.editar {
+  background-color: #ffc107;
+  color: black;
+}
+
+.registrar {
+  background-color: #28a745;
+  color: white;
+}
+
+.novo-profissional {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.novo-profissional button {
+  padding: 12px 25px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.novo-profissional button:hover {
+  background-color: #0056b3;
+}
+
+input[type="number"] {
+  padding: 4px;
+  width: 100px;
+  margin-left: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.mensagem-vazia {
+  text-align: center;
+  color: #777;
+  font-style: italic;
+  margin-top: 40px;
+}
