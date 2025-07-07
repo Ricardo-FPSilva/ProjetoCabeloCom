@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="./style.css" />
+<script src="script.js" defer></script>
 
 <div class="container">
   <div class="formulario">
@@ -12,13 +13,13 @@
       placeholder="Ex: Compra de material, vale..."
     ></textarea>
 
-    <button onclick="">Registrar Saída</button>
+    <button onclick="registrarSaida()">Registrar Saída</button>
   </div>
 
   <div
     class="historico clicavel"
     id="historico-card"
-    onclick=""
+    onclick="alternarExibicao()"
   >
     <h2>📃 Histórico de Saídas do Dia</h2>
     <div id="lista-saidas"></div>
