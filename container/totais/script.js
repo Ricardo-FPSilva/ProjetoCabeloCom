@@ -1,43 +1,26 @@
-// This function sets default values and then calls calcularTotais
-function iniciarCalculo() {
-  // Example system-provided values (replace with actual values from your system)
-  const valesDoSistema = 0;
-  const saidasDoSistema = 0;
-  const pagamentosProfissionaisDoSistema = 850; // Example system value for professionals
+/**
+ * Função chamada pelo botão para salvar os dados e ir para a tela de relatório.
+ */
+function gerarRelatorio() {
+    // 1. Pega os valores dos campos de input.
+    const caixaInput = document.getElementById('caixa');
+    const cartaoInput = document.getElementById('cartao');
 
-  // Set the default for pagamentosProfissionais if the input is empty
-  const pagamentosInput = document.getElementById("pagamentosProfissionais");
-  if (
-    !pagamentosInput.value &&
-    pagamentosProfissionaisDoSistema !== undefined
-  ) {
-    pagamentosInput.value = pagamentosProfissionaisDoSistema;
-  }
+    const valorCaixa = parseFloat(caixaInput.value) || 0;
+    const valorCartao = parseFloat(cartaoInput.value) || 0;
+    
+    if (caixaInput.value === '' || cartaoInput.value === '') {
+        alert('Por favor, preencha ambos os valores antes de gerar o relatório.');
+        return; // Interrompe a função se algum campo estiver vazio.
+    }
 
-  // Now call the calculation function with system-provided vales and saidas
-  calcularTotais(valesDoSistema, saidasDoSistema);
+    // 2. Salva os valores no localStorage.
+    // O localStorage armazena dados como texto, que poderemos recuperar na outra página.
+    localStorage.setItem('valorCaixaDoDia', valorCaixa);
+    localStorage.setItem('valorCartaoDoDia', valorCartao);
+
+    // 3. Redireciona o usuário para a página do relatório.
+    // O caminho '../relatorio/index.php' sobe uma pasta (de 'totais' para 'container')
+    // e depois entra na pasta 'relatorio'.
+    window.location.href = '../relatorio/index.php';
 }
-
-function calcularTotais(valesDoSistema, saidasDoSistema) {
-  const caixa = parseFloat(document.getElementById("caixa").value) || 0;
-  const cartao = parseFloat(document.getElementById("cartao").value) || 0;
-  // Get payments from the input field (user's input or default set by iniciarCalculo)
-  const pagamentos =
-    parseFloat(document.getElementById("pagamentosProfissionais").value) || 0;
-
-  // Use the values provided by the system for vales and saidas
-  const vales = valesDoSistema || 0;
-  const saidas = saidasDoSistema || 0;
-
-  // Corrected: should be sum for entries
-  const totalDescontos = cartao + vales + saidas + pagamentos;
-
-  const saldoFinal = caixa - totalDescontos;
-
-  document.getElementById(
-    "resultadoFinal"
-  ).innerText = `Saldo Caixa Final: R$ ${saldoFinal.toFixed(2)}`;
-}
-
-// Call iniciarCalculo once the page loads to set initial default values if any
-window.onload = iniciarCalculo;

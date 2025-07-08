@@ -1,0 +1,23 @@
+[
+    {
+        "nome": "Ana Silva",
+        "servico": "Cabelo e Maquiagem",
+        "status": "Ativo",
+        "valor": 1,
+        "vales": 0
+    },
+    {
+        "nome": "Carlos Souza",
+        "servico": "Barbearia",
+        "status": "Ativo",
+        "valor": 0,
+        "vales": 0
+    },
+    {
+        "nome": "Ricardo",
+        "servico": "Corte",
+        "status": "Ativo",
+        "valor": 0,
+        "vales": 1
+    }
+]

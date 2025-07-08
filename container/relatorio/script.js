@@ -1,42 +1,81 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const params = new URLSearchParams(window.location.search);
+// Define a URL da nossa API
+const API_URL = '/ProjetoCabeloCom/api.php';
 
-    // Populate Resumo section
-    document.getElementById('valorCaixa').textContent = `R$ ${params.get('valorCaixa') || '0,00'}`;
-    document.getElementById('valorCartao').textContent = `R$ ${params.get('valorCartao') || '0,00'}`;
-    document.getElementById('valorPix').textContent = `R$ ${params.get('valorPix') || '0,00'}`;
-    document.getElementById('vales').textContent = `R$ ${params.get('vales') || '0,00'}`;
-    document.getElementById('saidas').textContent = `R$ ${params.get('saidas') || '0,00'}`;
+/**
+ * Função principal que é executada assim que a página do relatório carrega.
+ */
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // --- PASSO 1: LER DADOS DO LOCALSTORAGE E DA API ---
 
-    // Populate Profissionais table
-    const tabelaProfissionais = document.getElementById('tabelaProfissionais');
-    // Clear existing placeholder rows
-    tabelaProfissionais.innerHTML = ''; 
+        // Pega os valores de caixa e cartão que foram salvos na tela de 'totais'.
+        const valorCaixa = parseFloat(localStorage.getItem('valorCaixaDoDia')) || 0;
+        const valorCartao = parseFloat(localStorage.getItem('valorCartaoDoDia')) || 0;
 
-    const profissionais = JSON.parse(params.get('profissionais') || '[]');
-    profissionais.forEach(profissional => {
-        const row = document.createElement('tr');
-        row.classList.add('linha-profissional');
-        row.innerHTML = `
-            <td class="nome-profissional-relatorio">${profissional.nome}</td>
-            <td class="valor-receber-profissional">R$ ${profissional.valor.toFixed(2).replace('.', ',')}</td>
-        `;
-        tabelaProfissionais.appendChild(row);
-    });
+        // Busca os dados de profissionais e saídas da API.
+        const response = await fetch(`${API_URL}?action=get_all_data`);
+        if (!response.ok) {
+            throw new Error('Não foi possível carregar os dados da API.');
+        }
+        const data = await response.json();
+        const profissionais = data.profissionais || [];
+        const saidas = data.saidas || [];
 
-    // Populate Saídas list
-    const listaSaidas = document.getElementById('listaSaidas');
-    // Clear existing placeholder items
-    listaSaidas.innerHTML = ''; 
+        // --- PASSO 2: CALCULAR OS TOTAIS ---
 
-    const saidas = JSON.parse(params.get('detalhesSaidas') || '[]');
-    saidas.forEach(saida => {
-        const listItem = document.createElement('li');
-        listItem.classList.add('item-saida');
-        listItem.textContent = `R$ ${saida.valor.toFixed(2).replace('.', ',')} - ${saida.descricao}`;
-        listaSaidas.appendChild(listItem);
-    });
+        // Soma o total de vales adiantados para os profissionais.
+        const totalVales = profissionais.reduce((acc, prof) => acc + (prof.vales || 0), 0);
 
-    // Populate Saldo Final
-    document.getElementById('saldoFinal').textContent = `R$ ${params.get('saldoFinal') || '0,00'}`;
+        // Soma o total de saídas/despesas.
+        const totalSaidas = saidas.reduce((acc, saida) => acc + (saida.valor || 0), 0);
+
+        // Soma o total a ser pago para os profissionais no dia.
+        const totalPagamentos = profissionais.reduce((acc, prof) => acc + (prof.valor || 0), 0);
+
+        // --- PASSO 3: PREENCHER O HTML (RENDERIZAR) ---
+
+        // Formata um número para o padrão monetário brasileiro (BRL).
+        const formatarMoeda = (valor) => `R$ ${valor.toFixed(2).replace('.', ',')}`;
+
+        // Preenche o card de resumo no topo.
+        document.getElementById('valorCaixa').textContent = formatarMoeda(valorCaixa);
+        document.getElementById('valorCartao').textContent = formatarMoeda(valorCartao);
+        document.getElementById('vales').textContent = formatarMoeda(totalVales);
+        document.getElementById('saidas').textContent = formatarMoeda(totalSaidas);
+
+        // Preenche a tabela de profissionais.
+        const tabelaProfissionais = document.getElementById('tabelaProfissionais');
+        tabelaProfissionais.innerHTML = ''; // Limpa as linhas de exemplo.
+        profissionais.forEach(prof => {
+            const row = tabelaProfissionais.insertRow();
+            row.innerHTML = `
+                <td>${prof.nome}</td>
+                <td>${formatarMoeda(prof.valor)}</td>
+            `;
+        });
+
+        // Preenche a lista de saídas.
+        const listaSaidas = document.getElementById('listaSaidas');
+        listaSaidas.innerHTML = ''; // Limpa os itens de exemplo.
+        saidas.forEach(saida => {
+            const item = document.createElement('li');
+            item.textContent = `${formatarMoeda(saida.valor)} - ${saida.descricao || 'Sem descrição'}`;
+            listaSaidas.appendChild(item);
+        });
+
+        // --- PASSO 4: CALCULAR E EXIBIR O SALDO FINAL ---
+
+        // Lógica do saldo: Dinheiro em caixa - (pagamentos aos profissionais + saídas gerais).
+        // Os valores em cartão e os vales já são descontados implicitamente, pois não entram no "caixa".
+        const saldoFinal = valorCaixa - totalPagamentos - totalSaidas;
+        document.getElementById('saldoFinal').textContent = formatarMoeda(saldoFinal);
+
+        // Opcional: Limpa o localStorage para não usar os mesmos dados no próximo relatório.
+        localStorage.removeItem('valorCaixaDoDia');
+        localStorage.removeItem('valorCartaoDoDia');
+
+    } catch (error) {
+        console.error('Erro ao gerar o relatório:', error);
+        document.body.innerHTML = `<p style="color: red; text-align: center;">Erro ao gerar o relatório. Verifique o console para mais detalhes.</p>`;
+    }
 });

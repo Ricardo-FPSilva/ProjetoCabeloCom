@@ -2,18 +2,13 @@
 <script src="script.js" defer></script>
 
 <div class="painel">
-    <label for="caixa">Valor total do caixa (R$):</label>
-    <input type="number" id="caixa" placeholder="Ex: 500">
+    <h1>Entradas do Dia</h1>
 
-    <label for="cartao">Valor em cartão (R$):</label>
-    <input type="number" id="cartao" placeholder="Ex: 300">
+    <label for="caixa">Valor total em caixa (R$):</label>
+    <input type="number" id="caixa" placeholder="Ex: 500.00" step="0.01">
 
-    <label for="pagamentosProfissionais">Total a pagar aos profissionais (R$):</label>
-    <input type="number" id="pagamentosProfissionais" placeholder="Ex: 800">
+    <label for="cartao">Valor total em cartão (R$):</label>
+    <input type="number" id="cartao" placeholder="Ex: 300.00" step="0.01">
 
-    <button onclick="iniciarCalculo()">🧮 Calcular Saldo Geral</button>
-
-    <div class="resultado" id="resultadoFinal">
-        Saldo Caixa Final: R$ 0,00
-    </div>
+    <button onclick="gerarRelatorio()">📊 Gerar Relatório Final</button>
 </div>

@@ -1,7 +1,6 @@
 <link rel="stylesheet" href="./style.css">
 <script src="script.js" defer></script>
 
-
 <div class="container-saidas">
     <div class="formulario">
         <label for="valor">Valor (R$):</label>

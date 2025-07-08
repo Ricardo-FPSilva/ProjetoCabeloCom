@@ -1,4 +1,3 @@
-
 @import "../../stylemain.css";
 
 .area-conteudo-principal {
@@ -54,7 +53,7 @@
     font-weight: 600;
     margin-bottom: 1.25rem;
     color: var(--cor-2); /* Marrom Escuro Avermelhado (escuro para contraste no fundo claro) */
-    border-bottom: 2px solid var(--cor-5); /* Bege Rosado Suave */
+    border-bottom: 2px solid var(--cor-3); /* Changed to var(--cor-3) for visibility */
     padding-bottom: 0.5rem;
 }
 
@@ -110,7 +109,8 @@
     margin-right: 0.75rem;
 }
 
-.lista-clientes-espera {
+/* Applied styles from .lista-clientes-espera to .fila-profissional */
+.fila-profissional {
     flex-grow: 1;
     padding: 1rem;
     background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
@@ -120,6 +120,9 @@
     flex-direction: column;
     gap: 0.75rem;
     min-height: 150px;
+    max-height: 300px; /* Kept for scrollbar */
+    overflow-y: auto; /* Kept for scrollbar */
+    padding-right: 8px; /* Kept for scrollbar */
 }
 
 .mensagem-lista-vazia {
@@ -172,11 +175,16 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border: 1px solid var(--cor-2); /* Marrom Escuro Avermelhado */
     display: flex;
-    align-items: center;
+    flex-direction: column; /* Changed to column for better readability of client details */
+    align-items: flex-start; /* Aligns text to the start */
     justify-content: space-between;
     font-size: 0.9rem;
     color: var(--cor-2); /* Marrom Escuro Avermelhado (escuro para contraste no fundo claro) */
     font-family: 'Inter', sans-serif;
+}
+
+.cartao-cliente p { /* Added style for paragraphs inside client card */
+    margin: 0.2rem 0;
 }
 
 .nome-cliente {
@@ -212,7 +220,7 @@
     transform: translateY(-1px);
 }
 
-.botao-editar-cliente { /* NOVO ESTILO PARA BOTÃO DE EDITAR */
+.botao-editar-cliente {
     background-color: var(--cor-3); /* Rosa Empoeirado Quente */
     color: var(--cor-2); /* Marrom Escuro Avermelhado */
     padding: 0.4rem 0.8rem;
@@ -428,12 +436,6 @@
 }
 
 /* Scrollbar personalizado para filas de profissionais */
-.fila-profissional {
-    max-height: 300px;
-    overflow-y: auto;
-    padding-right: 8px;
-}
-
 .fila-profissional::-webkit-scrollbar {
     width: 8px;
 }

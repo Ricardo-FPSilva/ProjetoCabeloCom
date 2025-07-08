@@ -115,7 +115,7 @@ iframe {
 button {
   padding: 0.75rem 1.5rem; /* Equivalente a 12px 24px */
   margin-top: 1.25rem; /* Equivalente a 20px */
-  background-color: var(--cor-5); /* Vinho Profundo */
+  background-color: var(--cor-4); /* Vinho Profundo */
   color: var(--cor-texto-claro); /* Branco Puro */
   font-size: 1.1rem; /* Equivalente a 17.6px */
   border: none;
