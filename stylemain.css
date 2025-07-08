@@ -21,13 +21,24 @@ body {
   --cor-6: #FDF8F5;
 
   --cor-texto-claro: #FFFFFF;
+  --cor-texto-escuro: #000000;
+  --cor-texto-padrao: var(--cor-texto-escuro);
+
   --cor-fundo-geral: var(--cor-1);
+
   --cor-primaria-clara: var(--cor-5);
   --cor-primaria-media: var(--cor-3);
   --cor-primaria-escura: var(--cor-1);
+
   --cor-destaque: var(--cor-4);
+
+  --cor-card: var(--cor-5);
   --cor-borda-elemento: var(--cor-3);
+  --cor-borda-padrao: var(--cor-3);
+  
+
   --cor-secundaria-clara: var(--cor-5);
+  
 }
 header {
   background-color: var(--cor-1);
@@ -99,6 +110,29 @@ iframe {
   height: calc(100vh - 70px);
   border: none;
 }
+
+
+button {
+  width: 100%;
+  padding: 0.75rem 1.5rem; /* Equivalente a 12px 24px */
+  margin-top: 1.25rem; /* Equivalente a 20px */
+  background-color: var(--cor-5); /* Vinho Profundo */
+  color: var(--cor-texto-claro); /* Branco Puro */
+  font-size: 1.1rem; /* Equivalente a 17.6px */
+  border: none;
+  border-radius: 0.5rem; /* Equivalente a 8px */
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+  font-family: "Inter", sans-serif;
+}
+
+button:hover {
+  background-color: var(--cor-2); /* Marrom Escuro Avermelhado */
+  transform: translateY(-2px);
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
   .container {

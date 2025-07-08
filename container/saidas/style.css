@@ -1,57 +1,4 @@
-/* Importar fontes do Google Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
-
-/* Nova Paleta de Cores: Riqueza Acolhedora com Toque de Vinho/Borgonha */
-:root {
-  --cor-1: #2c1e2b; /* Marrom Muito Escuro / Quase Preto com Subtom Vinho */
-  --cor-2: #4a2c3e; /* Marrom Escuro Avermelhado */
-  --cor-3: #d3c6c0; /* Rosa Empoeirado Quente */
-  --cor-4: #8b2e4f; /* Vinho Profundo / Borgonha (Destaque) */
-  --cor-5: #efe7e3; /* Bege Rosado Suave */
-  --cor-6: #fdf8f5; /* Branco Creme Quente */
-
-  --cor-texto-claro: #ffffff; /* Branco Puro */
-
-  /* Mapeamento das variáveis para as novas cores numeradas */
-  --cor-fundo-geral: var(--cor-1); /* AGORA O FUNDO GERAL É ESCURO */
-  --cor-primaria-clara: var(--cor-5);
-  --cor-primaria-media: var(--cor-3);
-  --cor-primaria-escura: var(--cor-1); /* Mantido para elementos escuros */
-  --cor-destaque: var(--cor-4);
-  --cor-borda-elemento: var(--cor-3);
-  --cor-secundaria-clara: var(--cor-5); /* Usado para divisores sutis */
-
-  /* Variáveis para este conjunto de estilos */
-  --cor-card: var(
-    --cor-primaria-clara
-  ); /* Usar bege rosado suave para o fundo do cartão */
-  --cor-botao: var(--cor-destaque); /* Usar vinho profundo para botões */
-  --cor-botao-hover: var(
-    --cor-2
-  ); /* Marrom escuro avermelhado para hover do botão */
-  --cor-texto-padrao: var(
-    --cor-2
-  ); /* Marrom escuro avermelhado para texto principal */
-  --cor-borda-padrao: var(--cor-3); /* Rosa empoeirado quente para bordas */
-}
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Inter", sans-serif;
-  background-color: var(--cor-fundo-geral); /* Usar a variável do modelo */
-  margin: 0;
-  padding: 1.5rem; /* Padronizado para 1.5rem (24px) */
-  color: var(--cor-texto-claro); /* Texto principal claro no fundo escuro */
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
-  transition: align-items 0.3s ease-out;
-}
+@import "../../stylemain.css";
 
 .container {
   max-width: 38rem; /* Padronizado para 38rem (608px, próximo de 600px) */
@@ -66,7 +13,7 @@ body {
   border-radius: 0.75rem; /* Padronizado para 0.75rem (12px) */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Sombra mais consistente com o modelo */
   margin-bottom: 1.5rem; /* Padronizado para 1.5rem (24px) */
-  border: 1px solid var(--cor-borda-padrao); /* Borda consistente com o modelo */
+  border: 1px solid var(--cor-borda-elemento); /* Borda consistente com o modelo */
   transition: all 0.3s ease-out;
 }
 
@@ -94,29 +41,6 @@ textarea:focus {
   outline: none;
   border-color: var(--cor-4); /* Vinho Profundo */
   box-shadow: 0 0 0 3px rgba(139, 46, 79, 0.5); /* Sombra de foco consistente */
-}
-
-button {
-  margin-top: 1.25rem; /* Padronizado para 1.25rem (20px) */
-  width: 100%;
-  padding: 0.75rem 1.5rem; /* Padronizado para 0.75rem 1.5rem */
-  background-color: var(--cor-botao); /* Usar cor do botão padronizada */
-  color: var(--cor-texto-claro); /* Cor do texto claro */
-  border: none;
-  border-radius: 0.5rem; /* Padronizado para 0.5rem (8px) */
-  font-size: 1.125rem; /* Padronizado para 1.125rem (18px) */
-  font-weight: 600; /* Padronizado para 600 */
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out, transform 0.2s ease; /* Transições consistentes */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Sombra consistente */
-  font-family: "Inter", sans-serif; /* Consistência da fonte */
-}
-
-button:hover {
-  background-color: var(
-    --cor-botao-hover
-  ); /* Usar cor de hover do botão padronizada */
-  transform: translateY(-2px); /* Efeito de elevação consistente */
 }
 
 .historico h2 {
