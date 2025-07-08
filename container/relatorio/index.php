@@ -9,6 +9,9 @@
 
 </head>
 <body>
+
+    <h1 class="titulo-principal">Relatório Final do Dia</h1>
+
     <div class="relatorio">
         <div class="resumo">
             <p><strong>Total em Caixa:</strong> <span id="valorCaixa" class="valor-caixa"></span></p>
