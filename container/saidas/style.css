@@ -1,8 +1,10 @@
 @import "../../stylemain.css";
 
-.container {
+.container-saidas {
+  column-gap: normal;
   max-width: 38rem; /* Padronizado para 38rem (608px, próximo de 600px) */
-  width: 100%;
+  padding: 1.5rem; /* Padronizado para 1.5rem (24px) */
+  width: auto;
   margin: 0 auto;
 }
 

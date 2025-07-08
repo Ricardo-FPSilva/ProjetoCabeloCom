@@ -37,29 +37,15 @@ const editClientProfessionalTypeInput = document.getElementById(
 const saveEditButton = document.getElementById("botao-salvar-edicao");
 const cancelEditButton = document.getElementById("botao-cancelar-edicao");
 
-// --- Funções Utilitárias ---
-
-/**
- * Exibe uma caixa de mensagem modal personalizada.
- * @param {string} message - A mensagem a ser exibida.
- */
 function showMessageBox(message) {
   messageContent.textContent = message;
   messageBox.classList.remove("oculto");
 }
 
-/**
- * Oculta a caixa de mensagem modal.
- */
 function hideMessageBox() {
   messageBox.classList.add("oculto");
 }
 
-// --- Persistência de Dados (usando localStorage para protótipo) ---
-
-/**
- * Carrega os dados de clientes e profissionais do localStorage do navegador.
- */
 function loadData() {
   const storedClients = localStorage.getItem("clients");
   const storedProfessionals = localStorage.getItem("professionals");
@@ -72,23 +58,11 @@ function loadData() {
   }
 }
 
-/**
- * Salva os dados de clientes e profissionais no localStorage do navegador.
- */
 function saveData() {
   localStorage.setItem("clients", JSON.stringify(clients));
   localStorage.setItem("professionals", JSON.stringify(professionals));
 }
 
-// --- Funções de Renderização da Interface do Usuário (UI) ---
-
-/**
- * Cria e retorna um elemento HTML (card) para um cliente.
- * Inclui o nome, procedimento e botões de ação (atribuir, remover, editar).
- * Configura o card para ser arrastável (drag-and-drop).
- * @param {object} client - O objeto cliente.
- * @returns {HTMLElement} O elemento div do card do cliente.
- */
 function createClientCard(client) {
   const clientCard = document.createElement("div");
   clientCard.id = `client-${client.id}`;
