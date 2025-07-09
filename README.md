@@ -1,3 +1,9 @@
+Alunos:
+JOÃO VITOR DOS SANTOS EVANGELISTA DE SOUSA
+VIVIAN KATHLEN SANTIAGO ALVES
+RICARDO FELIPE PEREIRA SILVA
+
+
 # 📋 Sistema de Gerenciamento
 
 Um sistema de gerenciamento web simples, projetado para rastrear as finanças de um pequeno negócio. Ele permite o gerenciamento de profissionais, seus ganhos, vales (adiantamentos), além do registro de despesas gerais (saídas) e totais de caixa.
