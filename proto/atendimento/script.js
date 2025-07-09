@@ -1,7 +1,6 @@
-// atendimento/script.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    // --- ELEMENTOS DO DOM ---
+
     const formCliente = document.getElementById('form-cliente');
     const secaoClientesEspera = document.getElementById('clientes-espera');
     const secaoProfissionais = document.getElementById('lista-profissionais');
@@ -11,11 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const msgSemClientes = document.getElementById('mensagem-sem-clientes-espera');
     const msgSemProfissionais = document.getElementById('mensagem-sem-profissionais');
 
-    const API_URL = '../../api.php'; // Caminho relativo da API
+    const API_URL = '../../api.php'; 
 
-    // --- FUNÇÕES DE RENDERIZAÇÃO ---
-
-    // Cria e retorna o HTML para um card de cliente
     const criarCardCliente = (cliente) => {
         return `
             <div class="card-cliente" id="cliente-${cliente.id}">
@@ -26,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     };
 
-    // Cria e retorna o HTML para um card de profissional em atendimento
     const criarCardProfissional = (atendimento) => {
         return `
             <div class="card-profissional" id="atendimento-${atendimento.id}" data-appointment-id="${atendimento.id}">
@@ -44,13 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
     };
 
-    // Atualiza toda a tela com os dados mais recentes do servidor
     const atualizarTela = async () => {
         try {
             const response = await fetch(`${API_URL}?action=obter_estado_inicial`);
             const estado = await response.json();
 
-            // 1. Renderizar a lista de espera
             secaoClientesEspera.innerHTML = ''; // Limpa a lista atual
             if (estado.clientes_espera && estado.clientes_espera.length > 0) {
                 estado.clientes_espera.forEach(cliente => {
@@ -62,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 msgSemClientes.style.display = 'block';
             }
 
-            // 2. Renderizar a lista de profissionais em atendimento
             secaoProfissionais.innerHTML = ''; // Limpa a lista atual
             if (estado.atendimentos && estado.atendimentos.length > 0) {
                 estado.atendimentos.forEach(atendimento => {
@@ -74,10 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 msgSemProfissionais.style.display = 'block';
             }
 
-            // 3. Popular o dropdown de profissionais
             selectProfissional.innerHTML = '<option value="">Selecione um profissional</option>';
             if (estado.profissionais && estado.profissionais.length > 0) {
-                 // Filtra para mostrar apenas profissionais que não estão em atendimento
                 const profissionaisOcupadosIds = new Set(estado.atendimentos.map(a => a.profissional.id));
                 const profissionaisDisponiveis = estado.profissionais.filter(p => !profissionaisOcupadosIds.has(p.id));
 
@@ -95,9 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- EVENT LISTENERS ---
-
-    // Envio do formulário de novo cliente
     formCliente.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(formCliente);
@@ -111,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (result.success) {
                 formCliente.reset();
-                atualizarTela(); // Recarrega tudo para garantir consistência
+                atualizarTela();
             } else {
                 alert('Erro ao adicionar cliente: ' + (result.message || 'Erro desconhecido'));
             }
@@ -121,7 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Clique no botão de atribuir cliente
     btnAtribuirCliente.addEventListener('click', async () => {
         const professionalId = selectProfissional.value;
         if (!professionalId) {
@@ -150,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Clique no botão de finalizar (usando delegação de evento)
+  
     secaoProfissionais.addEventListener('click', async (e) => {
         const finalizarButton = e.target.closest('.botao-finalizar');
         if (finalizarButton) {
@@ -181,7 +167,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
-    // --- INICIALIZAÇÃO ---
     atualizarTela();
 });

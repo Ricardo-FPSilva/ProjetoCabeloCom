@@ -2,6 +2,9 @@
 <script src="./script.js" defer></script>
 
 <div class="container-profissionais">
+    <div class="novo-profissional">
+        <button onclick="adicionarProfissional()">➕ Adicionar Profissional</button>
+    </div>
     <div class="lista-profissionais" id="lista-profissionais">
     </div>
 
@@ -9,7 +12,4 @@
         Nenhum profissional cadastrado.
     </div>
 
-    <div class="novo-profissional">
-        <button onclick="adicionarProfissional()">➕ Adicionar Profissional</button>
-    </div>
 </div>

@@ -1,3 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --cor-1: #2C1E2B;
+  --cor-2: #4A2C3E;
+  --cor-3: #D3C6C0;
+  --cor-4: #8B2E4F;
+  --cor-5: #EFE7E3;
+
+  --cor-fundo-geral: #221721;
+  --cor-fundo-menu: var(--cor-1);
+  --cor-fundo-header: var(--cor-1);
+  --cor-destaque: var(--cor-4);
+  --cor-texto-claro: #F0F0F0;
+  --cor-borda: #3a2a39;
+  --cor-hover: rgba(255, 255, 255, 0.08);
+  --cor-ativo: var(--cor-destaque);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -11,128 +30,105 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
-}
-:root {
-  --cor-1: #2C1E2B;
-  --cor-2: #4A2C3E;
-  --cor-3: #D3C6C0;
-  --cor-4: #8B2E4F;
-  --cor-5: #EFE7E3;
-  --cor-6: #FDF8F5;
-
-  --cor-texto-claro: #FFFFFF;
-  --cor-texto-escuro: #000000;
-  --cor-texto-padrao: var(--cor-texto-escuro);
-
-  --cor-fundo-geral: var(--cor-1);
-
-  --cor-primaria-clara: var(--cor-5);
-  --cor-primaria-media: var(--cor-3);
-  --cor-primaria-escura: var(--cor-1);
-
-  --cor-destaque: var(--cor-4);
-
-  --cor-card: var(--cor-5);
-  --cor-borda-elemento: var(--cor-3);
-  --cor-borda-padrao: var(--cor-3);
-  
-
-  --cor-secundaria-clara: var(--cor-5);
-  
-}
-header {
-  background-color: var(--cor-1);
-  padding: 10px 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 2px solid var(--cor-4);
-}
-
-header h1 {
-  font-size: 20px;
-  color: var(--cor-texto-claro);
-}
-
-header .auth {
-  font-size: 14px;
-  color: var(--cor-texto-claro);
-}
-
-/* Container principal */
-.container {
-  display: flex;
-  flex: 1;
   overflow: hidden;
 }
 
-/* Menu lateral */
+header {
+  background-color: var(--cor-fundo-header);
+  padding: 1rem 1.5rem; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--cor-destaque);
+  z-index: 10;
+}
+
+header h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.container {
+  display: flex;
+  flex: 1;
+}
+
 nav {
-  width: 220px;
-  background-color: var(--cor-1);
-  border-right: 1px solid var(--cor-2);
-  padding-top: 20px;
+  width: 240px;
+  background-color: var(--cor-fundo-menu);
+  border-right: 1px solid var(--cor-borda);
+  padding: 1.5rem 1rem;
   flex-shrink: 0;
+  transition: width 0.3s ease; 
 }
 
 nav ul {
   list-style: none;
 }
 
-nav li {
-  margin: 10px 0;
-}
-
 nav a {
   text-decoration: none;
   color: var(--cor-texto-claro);
-  padding: 10px 20px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
-  gap: 10px;
-  transition: background-color 0.2s;
+  gap: 15px;
   border-radius: 8px;
+  font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+nav a .nav-icon {
+  font-size: 1.2rem; 
 }
 
 nav a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--cor-hover);
 }
+
+nav a.active {
+  background-color: var(--cor-ativo);
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(139, 46, 79, 0.4);
+}
+
 main {
   flex: 1;
-  padding: 20px;
   background-color: var(--cor-fundo-geral);
-  color: var(--cor-texto-claro);
+  padding: 0;
+  height: calc(100vh - 67px); 
 }
 
 iframe {
   width: 100%;
-  height: calc(100vh - 70px);
+  height: 100%;
   border: none;
+  background-color: transparent;
 }
 
-
 button {
-  padding: 0.75rem 1.5rem; /* Equivalente a 12px 24px */
-  margin-top: 1.25rem; /* Equivalente a 20px */
-  background-color: var(--cor-4); /* Vinho Profundo */
-  color: var(--cor-texto-claro); /* Branco Puro */
-  font-size: 1.1rem; /* Equivalente a 17.6px */
+  padding: 12px 24px;
+  margin-top: 20px;
+  background-color: var(--cor-destaque);
+  color: white;
+  font-size: 1rem;
   border: none;
-  border-radius: 0.5rem; /* Equivalente a 8px */
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease-in-out, transform 0.2s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   font-weight: 600;
   font-family: "Inter", sans-serif;
 }
 
 button:hover {
-  background-color: var(--cor-2); /* Marrom Escuro Avermelhado */
+  background-color: #a1345b; 
   transform: translateY(-2px);
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
@@ -142,18 +138,15 @@ button:hover {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 60px;
-    background-color: var(--cor-1);
-    border-top: 1px solid var(--cor-4);
-    display: flex;
-    justify-content: space-around;
+    height: 65px;
+    background-color: var(--cor-fundo-menu);
+    border-top: 2px solid var(--cor-destaque);
     padding: 0;
     z-index: 1000;
   }
 
   nav ul {
     display: flex;
-    flex-direction: row;
     justify-content: space-around;
     align-items: center;
     width: 100%;
@@ -163,28 +156,31 @@ button:hover {
   nav li {
     margin: 0;
     flex: 1;
-    text-align: center;
   }
 
   nav a {
-    padding: 0;
-    font-size: 24px;
-    color: var(--cor-texto-claro);
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     height: 100%;
+    border-radius: 0;
+    gap: 4px;
+    padding: 0.5rem 0;
   }
 
   nav a span {
-    display: none;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+
+  nav a.active {
+    background-color: transparent;
+    color: var(--cor-destaque); 
+    box-shadow: none;
   }
 
   main {
-    padding-bottom: 60px;
+    height: calc(100vh - 67px - 65px); 
   }
 }
-
-/* Importar fontes Google */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');

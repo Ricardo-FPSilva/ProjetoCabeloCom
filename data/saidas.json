@@ -1,17 +1,12 @@
 [
     {
-        "valor": 20,
-        "descricao": "",
-        "data": "2025-07-08 23:54:55"
+        "valor": 22,
+        "descricao": "Comida",
+        "data": "2025-07-09 03:39:55"
     },
     {
-        "valor": 20,
-        "descricao": "registrar saida",
-        "data": "2025-07-08 23:59:58"
-    },
-    {
-        "valor": 564,
-        "descricao": "",
-        "data": "2025-07-09 00:01:20"
+        "valor": 60,
+        "descricao": "Shampoo",
+        "data": "2025-07-09 03:40:09"
     }
 ]

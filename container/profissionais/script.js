@@ -166,7 +166,6 @@ function renderizar() {
     profissionais.forEach((prof, i) => {
       const card = document.createElement("div");
       card.className = "card";
-      // Usamos toFixed(2) para formatar os valores como moeda
       card.innerHTML = `
                         <h2>👤 ${prof.nome}</h2>
                         <div class="info">🛠️ Serviços: ${prof.servico}</div>
@@ -175,10 +174,10 @@ function renderizar() {
                         <div class="info">💰 Valor no dia: R$ <span class="valor-dia">${parseFloat(prof.valor).toFixed(2)}</span></div>
                         <div class="info">💳 Vales solicitados: R$ <span class="vales-dia">${parseFloat(prof.vales).toFixed(2)}</span></div>
                         <div class="info">
-                            💵 Registrar Vale: <input type="number" onchange="registrarVale(this, ${i})" placeholder="R$" />
+                            💵 Registrar Vale: <input type="number" onclick="event.stopPropagation()" onchange="registrarVale(this, ${i})" placeholder="R$" />
                         </div>
                         <div class="info">
-                            🧮 Registrar Valor a Receber: <input type="number" onchange="registrarValor(this, ${i})" placeholder="R$" />
+                            🧮 Registrar Valor a Receber: <input type="number" onclick="event.stopPropagation()" onchange="registrarValor(this, ${i})" placeholder="R$" />
                         </div>
                         <div class="botoes">
                             <button class="editar" onclick="event.stopPropagation(); editarProfissional(${i})">✏️ Editar Dados</button>
@@ -201,5 +200,4 @@ function renderizar() {
   }
 }
 
-// Quando o conteúdo da página carregar, chamamos a função para buscar os dados da API.
 document.addEventListener('DOMContentLoaded', carregarProfissionais); 

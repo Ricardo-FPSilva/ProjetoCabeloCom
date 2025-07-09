@@ -1,14 +1,9 @@
-// A variável 'saidas' será preenchida com os dados da API.
 let saidas = [];
 let mostrarTudo = false;
 
-// Caminho absoluto para a nossa API, que já corrigimos no passo anterior.
-const API_URL = "../../api.php"; // Caminho para a nossa API a partir da pasta 'saidas'
+const API_URL = "../../api.php";
 const historicoCard = document.getElementById("historico-card");
 
-/**
- * Busca o histórico de saídas na API e atualiza a tela.
- */
 async function carregarSaidas() {
     try {
         const response = await fetch(`${API_URL}?action=get_saidas`);
@@ -16,7 +11,7 @@ async function carregarSaidas() {
             throw new Error('A resposta da rede não foi bem-sucedida.');
         }
         saidas = await response.json();
-        // Garante que o histórico seja exibido assim que os dados forem carregados.
+    
         atualizarHistorico();
     } catch (error) {
         console.error("Falha ao carregar o histórico de saídas:", error);
@@ -24,9 +19,6 @@ async function carregarSaidas() {
     }
 }
 
-/**
- * Envia o registro de uma nova saída para a API.
- */
 async function registrarSaida() {
     const valorInput = document.getElementById("valor");
     const descInput = document.getElementById("descricao");
@@ -53,10 +45,8 @@ async function registrarSaida() {
         const result = await response.json();
 
         if (result.success) {
-            // Limpa os campos do formulário
             valorInput.value = "";
             descInput.value = "";
-            // Recarrega os dados da API para garantir que a lista esteja 100% atualizada
             await carregarSaidas();
         } else {
             alert("Falha ao registrar a saída: " + result.message);
@@ -67,21 +57,16 @@ async function registrarSaida() {
     }
 }
 
-/**
- * A função de renderização permanece a mesma.
- * Ela apenas desenha na tela o que estiver no array 'saidas'.
- */
 function atualizarHistorico() {
     const lista = document.getElementById("lista-saidas");
     const totalDiv = document.getElementById("total-saidas");
     lista.innerHTML = "";
 
     let total = 0;
-    // O array 'saidas' pode estar vazio se o json estiver vazio
     if (Array.isArray(saidas)) {
         saidas.forEach((s) => (total += s.valor));
 
-        const saidasExibidas = mostrarTudo ? saidas : saidas.slice(-3);
+        const saidasExibidas = mostrarTudo ? saidas : saidas.slice(0, 3); 
 
         saidasExibidas.slice().reverse().forEach((saida) => {
             const item = document.createElement("div");
@@ -97,17 +82,43 @@ function atualizarHistorico() {
     totalDiv.innerText = `Total: R$ ${total.toFixed(2)}`;
 }
 
-// A função de expandir/recolher o card não precisa de alterações.
 function alternarExibicao() {
-    if (saidas.length <= 3) {
-        return;
+    const historicoCard = document.getElementById("historico-card");
+    const body = document.body;
+    const isExpanded = historicoCard.classList.contains("expandido");
+
+    if (isExpanded) {
+        historicoCard.classList.remove("expandido");
+        body.classList.remove("modal-aberto");
+
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+            backdrop.style.opacity = '0';
+            setTimeout(() => {
+                backdrop.remove();
+            }, 300);
+        }
+
+        mostrarTudo = false;
+        atualizarHistorico(); 
+
+    } else {
+
+        mostrarTudo = true;
+        atualizarHistorico(); 
+
+        const backdrop = document.createElement('div');
+        backdrop.className = 'modal-backdrop';
+        backdrop.onclick = alternarExibicao;
+        body.appendChild(backdrop);
+        
+        setTimeout(() => {
+            backdrop.style.opacity = '1';
+        }, 10);
+
+        historicoCard.classList.add("expandido");
+        body.classList.add("modal-aberto");
     }
-    mostrarTudo = !mostrarTudo;
-    historicoCard.classList.toggle("expandido");
-    // Opcional: Adicionar a lógica de alinhamento do body se desejar
-    // document.body.style.alignItems = mostrarTudo ? "flex-start" : "center";
-    atualizarHistorico();
 }
 
-// Quando o conteúdo da página carregar, chamamos a função para buscar os dados da API.
 document.addEventListener('DOMContentLoaded', carregarSaidas);

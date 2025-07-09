@@ -30,21 +30,21 @@
 }
 
 .coluna-lista {
-    background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
+    background-color: var(--cor-5); 
     padding: 1.5rem;
     border-radius: 0.75rem;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+    border: 1px solid var(--cor-3); 
     display: flex;
     flex-direction: column;
 }
 
 .cartao-registro {
-    background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
+    background-color: var(--cor-5);
     padding: 2rem;
     border-radius: 0.75rem;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+    border: 1px solid var(--cor-3); 
 }
 
 .titulo-secao {
@@ -52,8 +52,8 @@
     font-size: 1.6rem;
     font-weight: 600;
     margin-bottom: 1.25rem;
-    color: var(--cor-2); /* Marrom Escuro Avermelhado (escuro para contraste no fundo claro) */
-    border-bottom: 2px solid var(--cor-3); /* Changed to var(--cor-3) for visibility */
+    color: var(--cor-2);
+    border-bottom: 2px solid var(--cor-3); 
     padding-bottom: 0.5rem;
 }
 
@@ -72,23 +72,23 @@
     display: block;
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+    border: 1px solid var(--cor-3); 
     border-radius: 0.5rem;
     box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
     font-family: 'Inter', sans-serif;
-    color: var(--cor-1); /* Cor do texto dentro do input */
+    color: var(--cor-1); 
 }
 
 .campo-entrada:focus {
     outline: none;
-    border-color: var(--cor-4); /* Vinho Profundo */
+    border-color: var(--cor-4); 
     box-shadow: 0 0 0 3px rgba(139, 46, 79, 0.5);
 }
 
 .botao-acao {
     width: 100%;
-    background-color: var(--cor-4); /* Vinho Profundo */
-    color: var(--cor-texto-claro); /* Branco Puro */
+    background-color: var(--cor-4); 
+    color: var(--cor-texto-claro); 
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
     transition: background-color 0.3s ease-in-out, transform 0.2s ease;
@@ -101,7 +101,7 @@
 }
 
 .botao-acao:hover {
-    background-color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    background-color: var(--cor-2); 
     transform: translateY(-2px);
 }
 
@@ -109,25 +109,24 @@
     margin-right: 0.75rem;
 }
 
-/* Applied styles from .lista-clientes-espera to .fila-profissional */
 .fila-profissional {
     flex-grow: 1;
     padding: 1rem;
-    background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
+    background-color: var(--cor-5);
     border-radius: 0.5rem;
-    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+    border: 1px solid var(--cor-3); 
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
     min-height: 150px;
-    max-height: 300px; /* Kept for scrollbar */
-    overflow-y: auto; /* Kept for scrollbar */
-    padding-right: 8px; /* Kept for scrollbar */
+    max-height: 300px; 
+    overflow-y: auto; 
+    padding-right: 8px;
 }
 
 .mensagem-lista-vazia {
     text-align: center;
-    color: var(--cor-2); /* Marrom Escuro Avermelhado (escuro para contraste no fundo claro) */
+    color: var(--cor-2); 
     font-style: italic;
     padding: 1rem;
     font-family: 'Inter', sans-serif;
@@ -148,8 +147,8 @@
 
 .botao-atribuir-proximo {
     width: 100%;
-    background-color: var(--cor-4); /* Vinho Profundo */
-    color: var(--cor-texto-claro); /* Branco Puro */
+    background-color: var(--cor-4); 
+    color: var(--cor-texto-claro); 
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
     transition: background-color 0.3s ease-in-out, transform 0.2s ease;
@@ -163,37 +162,37 @@
 }
 
 .botao-atribuir-proximo:hover {
-    background-color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    background-color: var(--cor-2);
     transform: translateY(-2px);
 }
 
 /* Cartão do Cliente */
 .cartao-cliente {
-    background-color: var(--cor-3); /* Rosa Empoeirado Quente (claro para contraste) */
+    background-color: var(--cor-3); 
     padding: 0.75rem;
     border-radius: 0.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--cor-2); /* Marrom Escuro Avermelhado */
+    border: 1px solid var(--cor-2); 
     display: flex;
-    flex-direction: column; /* Changed to column for better readability of client details */
-    align-items: flex-start; /* Aligns text to the start */
+    flex-direction: column; 
+    align-items: flex-start; 
     justify-content: space-between;
     font-size: 0.9rem;
-    color: var(--cor-2); /* Marrom Escuro Avermelhado (escuro para contraste no fundo claro) */
+    color: var(--cor-2); 
     font-family: 'Inter', sans-serif;
 }
 
-.cartao-cliente p { /* Added style for paragraphs inside client card */
+.cartao-cliente p {
     margin: 0.2rem 0;
 }
 
 .nome-cliente {
     font-weight: 600;
-    color: var(--cor-1); /* Marrom Muito Escuro */
+    color: var(--cor-1);
 }
 
 .procedimento-cliente {
-    color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    color: var(--cor-2); 
     font-size: 0.8rem;
 }
 
@@ -203,8 +202,8 @@
 }
 
 .botao-atribuir-cliente {
-    background-color: var(--cor-4); /* Vinho Profundo */
-    color: var(--cor-texto-claro); /* Branco Puro */
+    background-color: var(--cor-4);
+    color: var(--cor-texto-claro); 
     padding: 0.4rem 0.8rem;
     border-radius: 0.4rem;
     transition: background-color 0.3s ease-in-out, transform 0.2s ease;
@@ -216,13 +215,13 @@
 }
 
 .botao-atribuir-cliente:hover {
-    background-color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    background-color: var(--cor-2); 
     transform: translateY(-1px);
 }
 
 .botao-editar-cliente {
-    background-color: var(--cor-3); /* Rosa Empoeirado Quente */
-    color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    background-color: var(--cor-3); 
+    color: var(--cor-2); 
     padding: 0.4rem 0.8rem;
     border-radius: 0.4rem;
     transition: background-color 0.3s ease-in-out, transform 0.2s ease;
@@ -234,13 +233,13 @@
 }
 
 .botao-editar-cliente:hover {
-    background-color: var(--cor-5); /* Bege Rosado Suave */
+    background-color: var(--cor-5); 
     transform: translateY(-1px);
 }
 
 
 .botao-remover-cliente {
-    color: #EF4444; /* Vermelho */
+    color: #EF4444;
     transition: color 0.2s ease-in-out;
     border: none;
     background: none;
@@ -249,16 +248,16 @@
 }
 
 .botao-remover-cliente:hover {
-    color: #DC2626; /* Vermelho mais escuro */
+    color: #DC2626; 
 }
 
-/* Cartão do Profissional */
+
 .cartao-profissional {
-    background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
+    background-color: var(--cor-5); 
     padding: 1.25rem;
     border-radius: 0.75rem;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+    border: 1px solid var(--cor-3); 
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -274,11 +273,11 @@
 .nome-profissional {
     font-size: 1.3rem;
     font-weight: 700;
-    color: var(--cor-1); /* Marrom Muito Escuro */
+    color: var(--cor-1); 
 }
 
 .botao-remover-profissional {
-    color: #EF4444; /* Vermelho */
+    color: #EF4444;
     transition: color 0.2s ease-in-out;
     border: none;
     background: none;
@@ -287,11 +286,11 @@
 }
 
 .botao-remover-profissional:hover {
-    color: #DC2626; /* Vermelho mais escuro */
+    color: #DC2626; 
 }
 
 .funcao-profissional {
-    color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    color: var(--cor-2); 
     font-size: 0.9rem;
 }
 
@@ -312,28 +311,28 @@
 
 /* Cores de status */
 .status-livre {
-    background-color: #D1FAE5; /* Verde claro */
-    color: #065F46; /* Verde escuro */
+    background-color: #D1FAE5; 
+    color: #065F46; 
 }
 
 .status-parcial {
-    background-color: #FEF3C7; /* Amarelo claro */
-    color: #92400E; /* Marrom escuro */
+    background-color: #FEF3C7;
+    color: #92400E; 
 }
 
 .status-ocupado {
-    background-color: #FEE2E2; /* Vermelho claro */
-    color: #991B1B; /* Vermelho escuro */
+    background-color: #FEE2E2; 
+    color: #991B1B; 
 }
 
-.status-pausa { /* Novo estilo para status "Em Pausa" */
-    background-color: var(--cor-3); /* Rosa Empoeirado Quente */
-    color: var(--cor-2); /* Marrom Escuro Avermelhado */
+.status-pausa { 
+    background-color: var(--cor-3); 
+    color: var(--cor-2); 
 }
 
 .botao-alternar-pausa {
-    background-color: var(--cor-5); /* Bege Rosado Suave */
-    color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    background-color: var(--cor-5);
+    color: var(--cor-2); 
     padding: 0.4rem 0.8rem;
     border-radius: 0.4rem;
     border: 1px solid var(--cor-3);
@@ -343,47 +342,47 @@
 }
 
 .botao-alternar-pausa:hover {
-    background-color: var(--cor-3); /* Rosa Empoeirado Quente */
+    background-color: var(--cor-3);
     transform: translateY(-1px);
 }
 
 
 .area-cliente-atual {
-    background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
+    background-color: var(--cor-5); 
     padding: 1rem;
     border-radius: 0.5rem;
-    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+    border: 1px solid var(--cor-3); 
     min-height: 80px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: var(--cor-2); /* Marrom Escuro Avermelhado (escuro para contraste no fundo claro) */
+    color: var(--cor-2); 
     font-style: italic;
     gap: 0.5rem;
     font-family: 'Inter', sans-serif;
 }
 
-.cliente-em-atendimento { /* Novo estilo para o cliente atualmente em atendimento */
-    width: 100%; /* Ocupa a largura total da área */
+.cliente-em-atendimento { 
+    width: 100%; 
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0.5rem;
-    box-sizing: border-box; /* Inclui padding na largura */
+    box-sizing: border-box;
 }
 
 .texto-soltar {
-    color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    color: var(--cor-2);
     font-style: italic;
     font-size: 0.9rem;
 }
 
 .botao-finalizar-servico {
     margin-top: 0.5rem;
-    background-color: var(--cor-4); /* Vinho Profundo */
-    color: var(--cor-texto-claro); /* Branco Puro */
+    background-color: var(--cor-4); 
+    color: var(--cor-texto-claro); 
     padding: 0.4rem 0.9rem;
     border-radius: 0.4rem;
     transition: background-color 0.3s ease-in-out, transform 0.2s ease;
@@ -395,15 +394,15 @@
 }
 
 .botao-finalizar-servico:hover {
-    background-color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    background-color: var(--cor-2);
     transform: translateY(-1px);
 }
 
 .area-fila-espera {
-    background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
+    background-color: var(--cor-5);
     padding: 1rem;
     border-radius: 0.5rem;
-    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+    border: 1px solid var(--cor-3); 
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -419,7 +418,7 @@
 
 .arrastando {
     opacity: 0.6;
-    border: 2px dashed var(--cor-4); /* Vinho Profundo */
+    border: 2px dashed var(--cor-4); 
     transform: scale(1.02);
 }
 
@@ -430,31 +429,29 @@
 }
 
 .zona-soltar-item.zona-arrasto-ativa {
-    border: 2px dashed var(--cor-4); /* Vinho Profundo */
-    background-color: rgba(139, 46, 79, 0.2); /* Destaque com opacidade */
+    border: 2px dashed var(--cor-4); 
+    background-color: rgba(139, 46, 79, 0.2); 
     box-shadow: inset 0 0 10px rgba(139, 46, 79, 0.3);
 }
 
-/* Scrollbar personalizado para filas de profissionais */
 .fila-profissional::-webkit-scrollbar {
     width: 8px;
 }
 
 .fila-profissional::-webkit-scrollbar-track {
-    background: var(--cor-5); /* Bege Rosado Suave */
+    background: var(--cor-5); 
     border-radius: 10px;
 }
 
 .fila-profissional::-webkit-scrollbar-thumb {
-    background: var(--cor-3); /* Rosa Empoeirado Quente */
+    background: var(--cor-3); 
     border-radius: 10px;
 }
 
 .fila-profissional::-webkit-scrollbar-thumb:hover {
-    background: var(--cor-2); /* Marrom Escuro Avermelhado */
+    background: var(--cor-2); 
 }
 
-/* Caixa de Mensagem (Modal) - Reutilizada para o modal de edição */
 .caixa-mensagem {
     position: fixed;
     inset: 0;
@@ -470,27 +467,27 @@
 }
 
 .conteudo-caixa-mensagem {
-    background-color: var(--cor-5); /* Bege Rosado Suave (claro para contraste) */
+    background-color: var(--cor-5);
     padding: 2rem;
     border-radius: 0.75rem;
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2), 0 10px 20px rgba(0, 0, 0, 0.08);
     max-width: 28rem;
     width: 100%;
     text-align: center;
-    border: 1px solid var(--cor-3); /* Rosa Empoeirado Quente */
+    border: 1px solid var(--cor-3); 
 }
 
 .texto-mensagem {
     font-size: 1.25rem;
     font-weight: 600;
     margin-bottom: 1.5rem;
-    color: var(--cor-2); /* Marrom Escuro Avermelhado (escuro para contraste no fundo claro) */
+    color: var(--cor-2);
     font-family: 'Inter', sans-serif;
 }
 
 .botao-confirmacao-mensagem {
-    background-color: var(--cor-4); /* Vinho Profundo */
-    color: var(--cor-texto-claro); /* Branco Puro */
+    background-color: var(--cor-4);
+    color: var(--cor-texto-claro); 
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
     transition: background-color 0.3s ease-in-out, transform 0.2s ease;
@@ -502,11 +499,10 @@
 }
 
 .botao-confirmacao-mensagem:hover {
-    background-color: var(--cor-2); /* Marrom Escuro Avermelhado */
+    background-color: var(--cor-2);
     transform: translateY(-2px);
 }
 
-/* Estilos para botões dentro de modais (específico para o modal de edição) */
 .botoes-modal {
     display: flex;
     justify-content: center;
@@ -514,9 +510,9 @@
     margin-top: 1.5rem;
 }
 
-.botao-cancelar { /* Estilo para o botão de cancelar no modal */
-    background-color: var(--cor-3); /* Rosa Empoeirado Quente */
-    color: var(--cor-2); /* Marrom Escuro Avermelhado */
+.botao-cancelar { 
+    background-color: var(--cor-3); 
+    color: var(--cor-2); 
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
     transition: background-color 0.3s ease-in-out, transform 0.2s ease;
@@ -529,6 +525,6 @@
 }
 
 .botao-cancelar:hover {
-    background-color: var(--cor-5); /* Bege Rosado Suave */
+    background-color: var(--cor-5);
     transform: translateY(-2px);
 }

@@ -2,7 +2,11 @@
 <script src="script.js" defer></script>
 
 <div class="container-saidas">
+    
+
     <div class="formulario">
+        <h1>Saidas do Dia</h1>
+
         <label for="valor">Valor (R$):</label>
         <input type="number" id="valor" placeholder="Digite o valor da saída">
 

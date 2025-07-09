@@ -1,166 +1,192 @@
-@import "../../stylemain.css";
+@import url("../../stylemain.css");
+
+html {
+  height: 100%;
+}
+
+body {
+  background-color: var(--cor-fundo-geral);
+  color: var(--cor-texto-claro);
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  height: 100%;
+  overflow: hidden; 
+}
 
 .container-profissionais {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 2rem;
+  width: 100%;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  box-sizing: border-box;
 }
 
 .lista-profissionais {
-  max-width: 800px;
-  margin: auto;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  font-family: "Inter", sans-serif;
+  gap: 1rem;
+  flex-grow: 1;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+
 .card {
-  background-color: var(--cor-5);
-  border-radius: 0.75rem;
-  padding: 1.25rem;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--cor-3);
-  position: relative;
+  background-color: var(--cor-fundo-menu);
+  color: var(--cor-texto-claro);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--cor-borda);
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  font-family: "Inter", sans-serif;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+  flex-shrink: 0;
 }
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
 .card h2 {
-  margin-top: 0;
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--cor-1);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--cor-texto-claro);
+  margin: 0;
 }
+
 .card .detalhes {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height 0.4s ease, opacity 0.3s ease;
-  color: var(--cor-2);
-  font-size: 0.9rem;
+  transition: max-height 0.4s ease-out, opacity 0.4s ease-out,
+    padding-top 0.4s ease-out;
+  border-top: 1px solid transparent;
+  padding-top: 0;
 }
+
+.card.aberto {
+  border-color: var(--cor-destaque);
+}
+
 .card.aberto .detalhes {
   max-height: 500px;
   opacity: 1;
+  padding-top: 1.25rem;
+  border-top-color: var(--cor-borda);
 }
+
 .info {
-  margin-bottom: 0.5rem;
-  font-family: "Inter", sans-serif;
+  margin-bottom: 0.75rem;
+  color: var(--cor-3);
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
+
+.info input[type="number"] {
+  padding: 8px 12px;
+  width: 120px;
+  border-radius: 6px;
+  border: 1px solid var(--cor-borda);
+  background-color: var(--cor-fundo-geral);
+  color: var(--cor-texto-claro);
+  font-size: 0.9rem;
+  box-shadow: none;
+}
+
+.info input[type="number"]:focus {
+  outline: none;
+  border-color: var(--cor-destaque);
+  box-shadow: 0 0 0 2px rgba(139, 46, 79, 0.5);
+}
+
 .status {
   font-weight: 600;
-  font-size: 0.8rem;
-  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  padding: 4px 10px;
   border-radius: 9999px;
   text-transform: uppercase;
-  font-family: "Inter", sans-serif;
 }
-.status.status-livre {
-  background-color: #d1fae5;
-  color: #065f46;
+
+.status.ativo {
+  background-color: #10b981;
+  color: white;
 }
-.status.status-parcial {
-  background-color: #fef3c7;
-  color: #92400e;
+
+.status.inativo {
+  background-color: #6b7280;
+  color: white;
 }
-.status.status-ocupado {
-  background-color: #fee2e2;
-  color: #991b1b;
+
+.botoes {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  border-top: 1px solid var(--cor-borda);
+  padding-top: 1rem;
 }
-.status.status-pausa {
-  background-color: var(--cor-3);
-  color: var(--cor-2);
+
+.botoes .editar {
+  background-color: var(--cor-fundo-menu);
+  border: 1px solid var(--cor-destaque);
+  color: var(--cor-destaque);
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  margin-top: 0;
+  width: 100%;
+  text-align: center;
 }
-.status.disponivel {
-  background-color: #d1fae5;
-  color: #065f46;
+
+.botoes .editar:hover {
+  background-color: var(--cor-destaque);
+  color: white;
 }
-.status.indisponivel {
-  background-color: #fee2e2;
-  color: #991b1b;
-}
-.editar {
-  background-color: var(--cor-3);
-  color: var(--cor-2);
-}
-.editar:hover {
-  background-color: var(--cor-5);
-  transform: translateY(-2px);
-}
-.registrar {
-  background-color: var(--cor-4);
-  color: var(--cor-texto-claro);
-}
-.registrar:hover {
-  background-color: var(--cor-2);
-  transform: translateY(-2px);
-}
+
 .novo-profissional {
   text-align: center;
-  margin-top: 3rem;
-  font-family: "Inter", sans-serif;
+  margin-bottom: 2rem;
+  padding-top: 1rem;
+  flex-shrink: 0;
 }
-.novo-profissional button {
-  padding: 0.75rem 1.5rem;
-  font-size: 1.1rem;
-  background-color: var(--cor-4);
-  color: var(--cor-texto-claro);
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease-in-out, transform 0.2s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-.novo-profissional button:hover {
-  background-color: var(--cor-2);
-  transform: translateY(-2px);
-}
-input[type="number"] {
-  padding: 0.75rem;
-  width: 100px;
-  margin-left: 0.5rem;
-  border-radius: 0.5rem;
-  border: 1px solid var(--cor-3);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
-  font-family: "Inter", sans-serif;
-  color: var(--cor-1);
-}
-input[type="number"]:focus {
-  outline: none;
-  border-color: var(--cor-4);
-  box-shadow: 0 0 0 3px rgba(139, 46, 79, 0.5);
-}
+
 .mensagem-vazia {
   text-align: center;
-  color: var(--cor-2);
+  color: var(--cor-3);
   font-style: italic;
-  margin-top: 2.5rem;
-  font-family: "Inter", sans-serif;
+  margin-top: 3rem;
   font-size: 1rem;
 }
-.alert {
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-}
 
-.alert.success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-}
+@media (max-width: 768px) {
+  .container-profissionais {
+    padding: 1rem;
+  }
 
-.alert.error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-}
+  .card h2 {
+    font-size: 1.1rem;
+  }
 
-.alert.warning {
-  background-color: #fff3cd;
-  color: #856404;
-  border: 1px solid #ffeeba;
+  .info {
+    font-size: 0.9rem;
+  }
+
+  .info label {
+    flex-basis: 100%;
+  }
+
+  .info input[type="number"] {
+    width: 100%;
+    flex-grow: 1;
+  }
 }
