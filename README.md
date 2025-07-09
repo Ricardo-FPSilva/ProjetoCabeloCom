@@ -38,10 +38,10 @@ O projeto está organizado de forma modular para separar as responsabilidades de
 │
 ├── api.php                 # Endpoint principal da API Backend
 ├── index.php               # Página principal que carrega os módulos via iframe
-├── stylemain.css           # Folha de estilo principal
-├── README.md               # Este arquivo
+├── stylemain.css           # Folha de estilo principal e tema visual
+├── README.md               # Documentação do projeto
 │
-├── 📁 container/
+├── container/
 │   ├── bemvindo/
 │   │   └── index.php       # Página inicial de boas-vindas
 │   ├── profissionais/
@@ -49,21 +49,21 @@ O projeto está organizado de forma modular para separar as responsabilidades de
 │   │   ├── script.js       # Lógica do frontend para gerenciar profissionais
 │   │   └── style.css       # Estilos específicos para a página de profissionais
 │   ├── saidas/
-│   │   ├── index.php
-│   │   ├── script.js
-│   │   └── style.css
+│   │   ├── index.php       # Estrutura HTML da página de saídas
+│   │   ├── script.js       # Lógica do frontend para saídas
+│   │   └── style.css       # Estilos específicos para saídas
 │   ├── totais/
-│   │   ├── index.php
-│   │   ├── script.js
-│   │   └── style.css
+│   │   ├── index.php       # Estrutura HTML da página de totais
+│   │   ├── script.js       # Lógica do frontend para totais
+│   │   └── style.css       # Estilos específicos para totais
 │   └── relatorio/
-│       └── index.php
+│       └── index.php       # Estrutura HTML da página de relatórios
 │
-└── 📁 data/
-├── json_helpers.php    # Funções auxiliares para ler e salvar JSON
-├── profissionais.json  # "Banco de dados" dos profissionais
-├── saidas.json         # "Banco de dados" das saídas/despesas
-└── totais.json         # "Banco de dados" dos totais de caixa
+└── data/
+    ├── json_helpers.php    # Funções auxiliares para ler e salvar JSON
+    ├── profissionais.json  # "Banco de dados" dos profissionais
+    ├── saidas.json         # "Banco de dados" das saídas/despesas
+    └── totais.json         # "Banco de dados" dos totais de caixa
 
 
 ## ⚙️ Instalação e Configuração
